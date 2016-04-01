@@ -20,7 +20,7 @@ public class Debugger extends Application {
 
     String consoleOutputText = "";
     TextArea outputConsole;
-
+    TextField variable;
 
     public static void main(String[] args) {
         launch(args);
@@ -54,8 +54,7 @@ public class Debugger extends Application {
 /*
     Declaration des boutons
  */
-        Button continueBtn = new Button();
-        continueBtn.setText("Continue");
+        Button continueBtn = new Button("Continue");
         continueBtn.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
@@ -65,8 +64,7 @@ public class Debugger extends Application {
             }
         });
 
-        Button stepOverBtn = new Button();
-        stepOverBtn.setText("Step Over");
+        Button stepOverBtn = new Button("Step Over");
         stepOverBtn.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
@@ -76,8 +74,7 @@ public class Debugger extends Application {
             }
         });
 
-        Button stepInBtn = new Button();
-        stepInBtn.setText("Step In");
+        Button stepInBtn = new Button("Step In");
         stepInBtn.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
@@ -87,14 +84,23 @@ public class Debugger extends Application {
             }
         });
 
-        Button stopBtn = new Button();
-        stopBtn.setText("Stop");
+        Button stopBtn = new Button("Stop");
         stopBtn.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
             public void handle(ActionEvent event) {
                 updateConsoleOutputText("Stop");
                 //Calls Command stop.execute();
+            }
+        });
+
+        Button addWatchBtn = new Button(" + ");
+        addWatchBtn.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent event) {
+                updateConsoleOutputText(getNewWatchTextAndReset());
+                //Add new watch to watch list
             }
         });
 
@@ -127,10 +133,9 @@ public class Debugger extends Application {
         HBox newLine = new HBox();
 
 
-        TextField variable = new TextField();
-        Button add = new Button(" + ");
+        variable = new TextField();
 
-        newLine.getChildren().addAll(variable, add);
+        newLine.getChildren().addAll(variable, addWatchBtn);
 
         rightPane.getChildren().addAll(watches, newLine);
 
@@ -144,6 +149,12 @@ public class Debugger extends Application {
         primaryStage.setTitle("Debugger");
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+
+    private String getNewWatchTextAndReset(){
+        String text = variable.getText();
+        variable.setText("");
+        return text;
     }
 
     private void updateConsoleOutputText(String text){
