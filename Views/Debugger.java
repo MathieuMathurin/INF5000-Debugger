@@ -6,6 +6,7 @@ import javafx.application.Application;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -13,21 +14,34 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.*;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.concurrent.*;
+
+import java.io.IOException;
+import java.io.InterruptedIOException;
+import java.util.concurrent.Semaphore;
 
 public class Debugger extends Application {
 
     String consoleOutputText = "";
     TextArea outputConsole;
     TextField variable;
+    Boolean threadSuspende = true;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         launch(args);
     }
 
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws InterruptedException {
+        final CustomTask ct = new CustomTask();
+        ct.lock();
+        Task t = ct.getTask();
+
+        Thread th = new Thread(t);
+        th.setDaemon(true);
+        th.start();
+
         String mockContent = "Collaboratively administrate empowered markets via plug-and-play networks. Dynamically procrastinate B2C users after installed base benefits. Dramatically visualize customer directed convergence without revolutionary ROI.\n" +
                 "\n" +
                 "Efficiently unleash cross-media information without cross-media value. Quickly maximize timely deliverables for real-time schemas. Dramatically maintain clicks-and-mortar solutions without functional solutions.\n" +
@@ -61,6 +75,7 @@ public class Debugger extends Application {
             public void handle(ActionEvent event) {
                 updateConsoleOutputText("Continue");
                 //Calls Command continue.execute();
+                ct.unlock();
             }
         });
 
@@ -176,6 +191,34 @@ public class Debugger extends Application {
 
         public String getValue(){
             return this.value.get();
+        }
+    }
+
+    public class CustomTask{
+        Semaphore lock = new Semaphore(1);
+        public void lock(){
+            try{
+                lock.acquire();
+            }catch(InterruptedException e){
+
+            }
+        }
+
+        public void unlock(){
+            lock.release();
+        }
+
+        private Task t = new Task() {
+            @Override
+            protected Object call() throws Exception {
+                lock.acquire();
+                System.out.println("Unlocked");
+                return this;
+            }
+        };
+
+        public Task getTask(){
+            return t;
         }
     }
 }
