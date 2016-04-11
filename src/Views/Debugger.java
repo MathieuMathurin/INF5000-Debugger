@@ -17,8 +17,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import javafx.concurrent.*;
-import java.util.concurrent.Semaphore;
+import java.util.concurrent.SynchronousQueue;
 
 public class Debugger extends Application {
 
@@ -27,27 +26,31 @@ public class Debugger extends Application {
     TextField variable;
 
     // Commands
+    Start cmdStart;
     Continue cmdContinue;
     StepIn cmdStepIn;
     StepOver cmdStepOver;
-    Stop cmdStop;
+
+    // Le thread est maintenu à jour dans les differentes commandes
+    // Cet objet est soit null (Bouton Start n'a jamais ete appuyé), soit valide (le SEUL thread en vie et valide)
+    InterpretorThread interpretorThread;
 
     public static void main(String[] args) throws InterruptedException {
         launch(args);
     }
 
-    public void initCommands() {
+    public void initCommands(SynchronousQueue<String> queue) {
+        cmdStart = new Start();
         cmdContinue = new Continue();
         cmdStepIn = new StepIn();
         cmdStepOver = new StepOver();
-        cmdStop = new Stop();
     }
 
     @Override
     public void start(Stage primaryStage) throws InterruptedException {
-        initCommands();
+        final SynchronousQueue<String> queue = new SynchronousQueue<String>();
 
-        final Service interpretorService = new InterpretorService();
+        initCommands(queue);
 
         String mockContent = "Collaboratively administrate empowered markets via plug-and-play networks. Dynamically procrastinate B2C users after installed base benefits. Dramatically visualize customer directed convergence without revolutionary ROI.\n" +
                 "\n" +
@@ -77,10 +80,8 @@ public class Debugger extends Application {
         startBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                if (!interpretorService.isRunning()) {
-                    interpretorService.reset();
-                    interpretorService.start();
-                }
+                updateConsoleOutputText("Start");
+                interpretorThread = cmdStart.execute(interpretorThread);
             }
         });
 
@@ -91,7 +92,8 @@ public class Debugger extends Application {
             @Override
             public void handle(ActionEvent event) {
                 updateConsoleOutputText("Continue");
-                //cmdContinue.execute();
+                if(interpretorThread != null)
+                    cmdContinue.execute(interpretorThread.queue);
             }
         });
 
@@ -121,7 +123,7 @@ public class Debugger extends Application {
             @Override
             public void handle(ActionEvent event) {
                 updateConsoleOutputText("Stop");
-                //Calls Command stop.execute();
+                if(interpretorThread != null) interpretorThread.interrupt();
             }
         });
 

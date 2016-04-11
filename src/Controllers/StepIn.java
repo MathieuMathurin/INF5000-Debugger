@@ -4,8 +4,8 @@
 
 package Controllers;
 
-public class StepIn implements Command {
-    @Override
+public class StepIn {
+    
     public void execute() {
         //Code to Step In current statement
     }

@@ -4,8 +4,7 @@
 
 package Controllers;
 
-public class StepOver implements Command {
-    @Override
+public class StepOver {
     public void execute() {
         //Code to Step Over current statement or block
     }

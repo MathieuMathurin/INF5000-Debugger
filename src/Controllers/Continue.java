@@ -4,12 +4,16 @@
 
 package Controllers;
 
-public class Continue implements Command{
+import java.util.concurrent.SynchronousQueue;
 
-    @Override
-    public void execute() {
-        //Code to resume execution of the file
+public class Continue {
+    public void execute(SynchronousQueue<String> queue) {
+        System.out.println("In continue command, sending data in the queue");
 
-        System.out.println("yo!");
+        try {
+            queue.put("Bonjour!");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
