@@ -5,11 +5,13 @@ import java.util.concurrent.SynchronousQueue;
 /**
  * Created by ledrou_83 on 16-04-11.
  */
-public class InterpretorThread extends Thread {
+public class InterpretorRunnable implements Runnable {
     public SynchronousQueue<String> queue;
 
-    public InterpretorThread() {
+    public InterpretorRunnable() {
         this.queue = new SynchronousQueue<String>();
+
+        new Thread(this).start();
     }
 
     public void run() {
@@ -20,6 +22,8 @@ public class InterpretorThread extends Thread {
                 String event = queue.take(); // thread will block here
 
                 System.out.printf("[%s] consumed event : %s %n", Thread .currentThread().getName(), event);
+
+
             }
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();

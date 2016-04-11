@@ -26,21 +26,17 @@ public class Debugger extends Application {
     TextField variable;
 
     // Commands
-    Start cmdStart;
     Continue cmdContinue;
     StepIn cmdStepIn;
     StepOver cmdStepOver;
 
-    // Le thread est maintenu à jour dans les differentes commandes
-    // Cet objet est soit null (Bouton Start n'a jamais ete appuyé), soit valide (le SEUL thread en vie et valide)
-    InterpretorThread interpretorThread;
+    InterpretorRunnable interpretorRunnable;
 
     public static void main(String[] args) throws InterruptedException {
         launch(args);
     }
 
     public void initCommands() {
-        cmdStart = new Start();
         cmdContinue = new Continue();
         cmdStepIn = new StepIn();
         cmdStepOver = new StepOver();
@@ -79,7 +75,8 @@ public class Debugger extends Application {
             @Override
             public void handle(ActionEvent event) {
                 updateConsoleOutputText("Start");
-                interpretorThread = cmdStart.execute(interpretorThread);
+                if (interpretorRunnable ==  null)
+                    interpretorRunnable = new InterpretorRunnable();
             }
         });
 
@@ -90,8 +87,8 @@ public class Debugger extends Application {
             @Override
             public void handle(ActionEvent event) {
                 updateConsoleOutputText("Continue");
-                if(interpretorThread != null)
-                    cmdContinue.execute(interpretorThread.queue);
+                if (interpretorRunnable !=  null)
+                    cmdContinue.execute(interpretorRunnable.queue);
             }
         });
 
@@ -121,7 +118,7 @@ public class Debugger extends Application {
             @Override
             public void handle(ActionEvent event) {
                 updateConsoleOutputText("Stop");
-                if(interpretorThread != null) interpretorThread.interrupt();
+                interpretorRunnable = null; // Ne jamais relancer un thread...
             }
         });
 
