@@ -2,6 +2,10 @@
  * Created by Mathieu on 3/31/2016.
  */
 
+package Views;
+
+import Controllers.*;
+
 import javafx.application.Application;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -26,21 +30,36 @@ public class Debugger extends Application {
     String consoleOutputText = "";
     TextArea outputConsole;
     TextField variable;
-    Boolean threadSuspende = true;
+    Boolean threadSuspended = true;
+
+    // Commands
+    Continue cmdContinue;
+    StepIn cmdStepIn;
+    StepOver cmdStepOver;
+    Stop cmdStop;
 
     public static void main(String[] args) throws InterruptedException {
         launch(args);
     }
 
+    public void initCommands() {
+        cmdContinue = new Continue();
+        cmdStepIn = new StepIn();
+        cmdStepOver = new StepOver();
+        cmdStop = new Stop();
+    }
+
     @Override
     public void start(Stage primaryStage) throws InterruptedException {
-        final CustomTask ct = new CustomTask();
-        ct.lock();
-        Task t = ct.getTask();
+        initCommands();
 
-        Thread th = new Thread(t);
-        th.setDaemon(true);
-        th.start();
+        final CustomTask customTask = new CustomTask();
+        customTask.lock();
+        Task task = customTask.getTask();
+
+        Thread threadInterpretor= new Thread(task);
+        threadInterpretor.setDaemon(true);
+        threadInterpretor.start();
 
         String mockContent = "Collaboratively administrate empowered markets via plug-and-play networks. Dynamically procrastinate B2C users after installed base benefits. Dramatically visualize customer directed convergence without revolutionary ROI.\n" +
                 "\n" +
@@ -74,8 +93,8 @@ public class Debugger extends Application {
             @Override
             public void handle(ActionEvent event) {
                 updateConsoleOutputText("Continue");
-                //Calls Command continue.execute();
-                ct.unlock();
+                cmdContinue.execute();
+                customTask.unlock();
             }
         });
 
