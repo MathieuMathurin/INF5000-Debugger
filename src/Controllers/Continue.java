@@ -1,19 +1,17 @@
 /**
  * Created by Mathieu on 4/4/2016.
  */
-
 package Controllers;
 
-import java.util.concurrent.SynchronousQueue;
+import Lib.*;
+import java.math.BigInteger;
+import java.security.SecureRandom;
 
 public class Continue {
-    public void execute(SynchronousQueue<String> queue) {
+    public void execute(Observer observer) {
         System.out.println("In continue command, sending data in the queue");
 
-        try {
-            queue.put("Bonjour!");
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        //TEST
+        observer.update();
     }
 }

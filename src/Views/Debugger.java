@@ -75,8 +75,10 @@ public class Debugger extends Application {
             @Override
             public void handle(ActionEvent event) {
                 updateConsoleOutputText("Start");
-                if (interpretorRunnable ==  null)
-                    interpretorRunnable = new InterpretorRunnable();
+                if (interpretorRunnable ==  null){
+                    Observer observer = new Observer();
+                    interpretorRunnable = new InterpretorRunnable(observer);
+                }
             }
         });
 
@@ -88,7 +90,7 @@ public class Debugger extends Application {
             public void handle(ActionEvent event) {
                 updateConsoleOutputText("Continue");
                 if (interpretorRunnable !=  null)
-                    cmdContinue.execute(interpretorRunnable.queue);
+                    cmdContinue.execute(interpretorRunnable.observer);
             }
         });
 
