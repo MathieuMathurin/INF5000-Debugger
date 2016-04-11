@@ -39,7 +39,7 @@ public class Debugger extends Application {
         launch(args);
     }
 
-    public void initCommands(SynchronousQueue<String> queue) {
+    public void initCommands() {
         cmdStart = new Start();
         cmdContinue = new Continue();
         cmdStepIn = new StepIn();
@@ -48,9 +48,7 @@ public class Debugger extends Application {
 
     @Override
     public void start(Stage primaryStage) throws InterruptedException {
-        final SynchronousQueue<String> queue = new SynchronousQueue<String>();
-
-        initCommands(queue);
+        initCommands();
 
         String mockContent = "Collaboratively administrate empowered markets via plug-and-play networks. Dynamically procrastinate B2C users after installed base benefits. Dramatically visualize customer directed convergence without revolutionary ROI.\n" +
                 "\n" +
