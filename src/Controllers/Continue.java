@@ -1,15 +1,17 @@
 /**
  * Created by Mathieu on 4/4/2016.
  */
-
 package Controllers;
 
-public class Continue implements Command{
+import Lib.*;
+import java.math.BigInteger;
+import java.security.SecureRandom;
 
-    @Override
-    public void execute() {
-        //Code to resume execution of the file
+public class Continue {
+    public void execute(Observer observer) {
+        System.out.println("In continue command, sending data in the queue");
 
-        System.out.println("yo!");
+        //TEST
+        observer.update();
     }
 }

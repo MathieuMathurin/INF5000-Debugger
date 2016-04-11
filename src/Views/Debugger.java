@@ -1,16 +1,14 @@
 /**
  * Created by Mathieu on 3/31/2016.
  */
-
 package Views;
-
 import Controllers.*;
+import Lib.*;
 
 import javafx.application.Application;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -19,24 +17,20 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import javafx.concurrent.*;
-
-import java.io.IOException;
-import java.io.InterruptedIOException;
-import java.util.concurrent.Semaphore;
+import java.util.concurrent.SynchronousQueue;
 
 public class Debugger extends Application {
 
     String consoleOutputText = "";
     TextArea outputConsole;
     TextField variable;
-    Boolean threadSuspended = true;
 
     // Commands
     Continue cmdContinue;
     StepIn cmdStepIn;
     StepOver cmdStepOver;
-    Stop cmdStop;
+
+    InterpretorRunnable interpretorRunnable;
 
     public static void main(String[] args) throws InterruptedException {
         launch(args);
@@ -46,20 +40,11 @@ public class Debugger extends Application {
         cmdContinue = new Continue();
         cmdStepIn = new StepIn();
         cmdStepOver = new StepOver();
-        cmdStop = new Stop();
     }
 
     @Override
     public void start(Stage primaryStage) throws InterruptedException {
         initCommands();
-
-        final CustomTask customTask = new CustomTask();
-        customTask.lock();
-        Task task = customTask.getTask();
-
-        Thread threadInterpretor= new Thread(task);
-        threadInterpretor.setDaemon(true);
-        threadInterpretor.start();
 
         String mockContent = "Collaboratively administrate empowered markets via plug-and-play networks. Dynamically procrastinate B2C users after installed base benefits. Dramatically visualize customer directed convergence without revolutionary ROI.\n" +
                 "\n" +
@@ -84,17 +69,28 @@ public class Debugger extends Application {
         VBox rightPane = new VBox();
         rightPane.setSpacing(10);
 
-/*
-    Declaration des boutons
- */
+        //Create buttons
+        Button startBtn = new Button("Start");
+        startBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                updateConsoleOutputText("Start");
+                if (interpretorRunnable ==  null){
+                    Observer observer = new Observer();
+                    interpretorRunnable = new InterpretorRunnable(observer);
+                }
+            }
+        });
+
+
         Button continueBtn = new Button("Continue");
         continueBtn.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
             public void handle(ActionEvent event) {
                 updateConsoleOutputText("Continue");
-                cmdContinue.execute();
-                customTask.unlock();
+                if (interpretorRunnable !=  null)
+                    cmdContinue.execute(interpretorRunnable.observer);
             }
         });
 
@@ -124,7 +120,7 @@ public class Debugger extends Application {
             @Override
             public void handle(ActionEvent event) {
                 updateConsoleOutputText("Stop");
-                //Calls Command stop.execute();
+                interpretorRunnable = null; // Ne jamais relancer un thread...
             }
         });
 
@@ -138,7 +134,7 @@ public class Debugger extends Application {
             }
         });
 
-        commandButtonsPanel.getChildren().addAll(continueBtn, stepOverBtn, stepInBtn, stopBtn);
+        commandButtonsPanel.getChildren().addAll(startBtn, continueBtn, stepOverBtn, stepInBtn, stopBtn);
 
         TextArea fileView = new TextArea(mockContent);
         fileView.setEditable(false);
@@ -210,34 +206,6 @@ public class Debugger extends Application {
 
         public String getValue(){
             return this.value.get();
-        }
-    }
-
-    public class CustomTask{
-        Semaphore lock = new Semaphore(1);
-        public void lock(){
-            try{
-                lock.acquire();
-            }catch(InterruptedException e){
-
-            }
-        }
-
-        public void unlock(){
-            lock.release();
-        }
-
-        private Task t = new Task() {
-            @Override
-            protected Object call() throws Exception {
-                lock.acquire();
-                System.out.println("Unlocked");
-                return this;
-            }
-        };
-
-        public Task getTask(){
-            return t;
         }
     }
 }
