@@ -37,10 +37,15 @@ public class Observer {
         return runnableState == RunnableState.ENDED;
     }
 
-    public synchronized void updateContinue(int breakpoint) {
+    public synchronized void sendContinue(int breakpoint) {
         this.command = CommandType.CONTINUE;
         this.breakpoint = breakpoint;
 
+        notify();
+    }
+
+    public synchronized void sendStepOver() {
+        this.command = CommandType.STEP_OVER;
         notify();
     }
 }

@@ -1,0 +1,46 @@
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.cell.PropertyValueFactory;
+
+//        ObservableList<Watch> data =
+//                FXCollections.observableArrayList(
+//                        new Watch("1+2", "3"),
+//                        new Watch("isTrue", "True")
+//                );
+
+//        TableView<Watch> watches = new TableView<Watch>();
+//        watches.setEditable(true);
+//        TableColumn watchVariable = new TableColumn("Variables");
+//        watchVariable.prefWidthProperty().bind(watches.widthProperty().divide(2));
+//        watchVariable.setCellValueFactory(new PropertyValueFactory<Watch,String>("variable"));
+//        watchVariable.setEditable(true);
+//
+//        TableColumn watchValues = new TableColumn("Values");
+//        watchValues.setCellValueFactory(new PropertyValueFactory<Watch,String>("value"));
+//        watchValues.prefWidthProperty().bind(watches.widthProperty().divide(2));
+//        watchValues.setEditable(false);
+
+        //watches.setItems(data);
+
+        //watches.getColumns().addAll(watchVariable, watchValues);
+
+        //rightPane.getChildren().addAll(watches, newLine);
+
+        public class Watch{
+                private SimpleStringProperty variable;
+                private SimpleStringProperty value;
+
+                public Watch(String variable, String value){
+                    this.variable = new SimpleStringProperty(variable);
+                    this.value = new SimpleStringProperty(value);
+                }
+
+                public String getVariable(){
+                    return this.variable.get();
+                }
+
+                public String getValue(){
+                    return this.value.get();
+                }
+            }

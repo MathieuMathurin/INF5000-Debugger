@@ -4,8 +4,10 @@
 
 package controllers;
 
+import lib.Observer;
+
 public class StepOver {
-    public void execute() {
-        //Code to Step Over current statement or block
+    public void execute(Observer observer) {
+        observer.sendStepOver();
     }
 }
