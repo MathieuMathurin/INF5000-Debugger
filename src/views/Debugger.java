@@ -24,6 +24,7 @@ public class Debugger extends Application {
 
     String consoleOutputText = "";
     TextArea outputConsole;
+    TextArea fileView;
     TextField variable;
 
     // Commands
@@ -79,7 +80,8 @@ public class Debugger extends Application {
                 updateConsoleOutputText("Start");
 
                 if (interpretorRunnable ==  null || interpretorRunnable.observer.runnableHasEnded()){
-                    Observer observer = new Observer();
+                    Notifier notifier = new Notifier(fileView);
+                    Observer observer = new Observer(notifier);
                     interpretorRunnable = new InterpretorRunnable(mainArgs, observer);
                 }
             }
@@ -139,7 +141,7 @@ public class Debugger extends Application {
 
         commandButtonsPanel.getChildren().addAll(startBtn, continueBtn, stepOverBtn, stepInBtn, stopBtn);
 
-        TextArea fileView = new TextArea(mockContent);
+        fileView = new TextArea(mockContent);
         fileView.setEditable(false);
 
         outputConsole = new TextArea();

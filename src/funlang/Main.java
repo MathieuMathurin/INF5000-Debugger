@@ -7,10 +7,19 @@ import funlang.syntax.lexer.*;
 import funlang.syntax.node.*;
 import funlang.syntax.parser.*;
 
+import lib.Observer;
+
 public class Main {
+    static Observer observer;
+
+    public static void startDebugMode(String[] args, Observer o){
+        observer = o;
+        main(args);
+    }
 
     public static void main(
             String[] args) {
+
         try {
 
             if(args.length < 1) {
@@ -18,6 +27,7 @@ public class Main {
                 System.exit(1);
             }
 
+            // COMPILATOR
             Reader in = new FileReader(args[0]);
             Lexer lexer = new Lexer(new PushbackReader(in, 1024));
             Parser parser = new Parser(lexer);
@@ -25,9 +35,14 @@ public class Main {
 
             // Verify semantics
             Semantics semantics = SemanticVerifier.verify(tree);
+            // COMPILATOR
 
+
+
+            // On travaillea partir d'ici
             // Interpret
-            Interpreter.interpret(tree, semantics);
+            // On ne touche pas au compilator, nos sleeps seront dans Interpretor
+            Interpreter.interpret(tree, semantics, observer);
         }
         catch (LexerException e) {
             System.err.println(e.getMessage());

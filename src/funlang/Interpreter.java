@@ -1,14 +1,20 @@
 
 package funlang;
 
-import java.io.IOException;
-import java.util.*;
+import java.util.List;
+import java.util.Scanner;
+import java.util.Iterator;
+import java.util.LinkedList;
 
 import funlang.syntax.analysis.*;
 import funlang.syntax.node.*;
 
+import lib.*;
+
 public class Interpreter
         extends DepthFirstAdapter {
+
+    private DebuggerUtils debuggerUtils;
 
     private Semantics semantics;
 
@@ -19,16 +25,19 @@ public class Interpreter
     private Frame currentFrame;
 
     public Interpreter(
-            Semantics semantics) {
+            Semantics semantics,
+            Observer observer) {
 
         this.semantics = semantics;
+        if (observer != null) this.debuggerUtils = new DebuggerUtils(observer);
     }
 
     public static void interpret(
             Start tree,
-            Semantics semantics) {
+            Semantics semantics,
+            Observer observer) {
 
-        Interpreter interpreter = new Interpreter(semantics);
+        Interpreter interpreter = new Interpreter(semantics, observer);
         tree.apply(interpreter);
     }
 
@@ -193,6 +202,8 @@ public class Interpreter
     @Override
     public void caseALtExp(
             ALtExp node) {
+
+        debuggerUtils.observer.updateUI(this.currentFrame.toString());
 
         node.getLeft().apply(this);
         int left = ((IntValue) this.result).getValue();
