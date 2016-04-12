@@ -17,7 +17,10 @@ import javafx.stage.Stage;
 public class Debugger extends Application {
 
     // test
-    int breakpoint = 17;
+    //TODO start sans breakpoint , break a la premiere ligne de code
+    //TODO step out
+    // TODO si on change des valeurs locales au runtime, on doit faire la verif de TYPES
+    int breakpoint = 24;
     //test
 
     static String[] mainArgs;
@@ -76,7 +79,8 @@ public class Debugger extends Application {
         stepOverBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                cmdStepOver.execute(interpretorRunnable.observer);
+                if (interpretorRunnable != null)
+                    cmdStepOver.execute(interpretorRunnable.observer);
             }
         });
 
@@ -85,7 +89,8 @@ public class Debugger extends Application {
 
             @Override
             public void handle(ActionEvent event) {
-                //Calls Command stepIn.execute();
+                if (interpretorRunnable != null)
+                    cmdStepIn.execute(interpretorRunnable.observer);
             }
         });
 

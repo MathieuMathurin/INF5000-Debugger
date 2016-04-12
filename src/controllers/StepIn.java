@@ -4,9 +4,11 @@
 
 package controllers;
 
+import lib.Observer;
+
 public class StepIn {
     
-    public void execute() {
-        //Code to Step In current statement
+    public void execute(Observer observer) {
+        observer.sendStepIn();
     }
 }

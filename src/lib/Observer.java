@@ -48,4 +48,9 @@ public class Observer {
         this.command = CommandType.STEP_OVER;
         notify();
     }
+
+    public synchronized void sendStepIn() {
+        this.command = CommandType.STEP_IN;
+        notify();
+    }
 }
