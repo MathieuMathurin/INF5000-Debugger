@@ -1,0 +1,26 @@
+fun printint(n: int);
+fun printbool(b: bool);
+fun printstring(s: string);
+fun println();
+fun readint(): int;
+
+fun min(a: int, b: int): int {
+  if (a < b) {
+    return a;
+  }
+  
+  return b;
+}
+
+{
+  printstring("Hello world!");
+  println();
+
+  printstring("min(3,4) = ");
+  printint(min(3,4));
+  println();
+
+  var x = readint();
+  printstring("YO!");
+  printint(x);
+}
