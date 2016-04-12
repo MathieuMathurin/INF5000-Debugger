@@ -10,6 +10,5 @@ public class Continue {
         System.out.println("In continue command, sending data in the queue");
 
         //TEST
-        observer.update();
     }
 }

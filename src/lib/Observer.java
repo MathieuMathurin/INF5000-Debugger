@@ -9,7 +9,8 @@ import java.security.SecureRandom;
 public class Observer {
 
     RunnableState runnableState;
-    public String testValue;
+    String command;
+    String testValue;
     Notifier textAreaNotifier;
 
     public Observer(Notifier n){
@@ -20,10 +21,12 @@ public class Observer {
         textAreaNotifier.pushNotification(s);
     }
 
-    public synchronized void update() {
-        testValue = new BigInteger(130, new SecureRandom()).toString(32);
-
-        notify();
+    public synchronized void waitNextCommand() {
+        try {
+            wait();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public synchronized void updateState(RunnableState rs) {
