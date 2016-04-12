@@ -1,0 +1,146 @@
+Package funlang.syntax;
+
+Helpers
+
+  any = [0..0xffff];
+
+  letter = ['a'..'z'];
+  digit = ['0'..'9'];
+  
+  cr = 13;
+  lf = 10;
+
+  not_eol = [any - [cr + lf]];
+  eol = cr | lf | cr lf;
+  
+  string_char = [[32..126]-'"'];
+  
+Tokens
+
+  // operators
+  plus = '+';
+  minus = '-';
+  star = '*';
+  caret = '^';
+  assign = '=';
+  equal = '==';
+  lt = '<';
+
+  // separators
+  l_par = '(';
+  r_par = ')';
+  l_brace = '{';
+  r_brace = '}';
+  comma = ',';
+  semi = ';';
+  colon = ':';
+
+  // keywords 
+  bool = 'bool'; 
+  else = 'else';
+  false = 'false';
+  fun = 'fun';
+  if = 'if';
+  int = 'int';
+  return = 'return';
+  string = 'string';
+  true = 'true';
+  var = 'var';
+  while = 'while';
+  
+  // literals
+  num = digit+;
+  string_literal = '"' string_char* '"';
+  
+  // identifiers
+  id = letter (letter | digit)*;
+  
+  // ignored
+  blank = (' ' | cr | lf)+; 
+  comment = '#' not_eol* eol;
+  
+Ignored Tokens
+
+  blank, comment;
+
+Productions
+
+  program =
+    func* block;
+    
+  func =
+    fun id l_par params? r_par return_type? body;
+    
+  body =
+    {block} block |
+    {internal} semi;
+    
+  params =
+     param additional_param*;
+    
+  additional_param =
+    comma param;
+    
+  param =
+    id colon type;
+    
+  return_type =
+    colon type;
+    
+  type =
+    {int} int |
+    {bool} bool |
+    {string} string;
+  
+  block =
+    {block} l_brace stm* r_brace;
+
+  stm =
+    {decl} var id assign exp semi |
+    {assign} id assign exp semi |
+    {if} if l_par exp r_par block |
+    {if_else} if l_par exp r_par [then_block]:block else [else_block]:block |
+    {while} while l_par exp r_par block |
+    {call} call semi |
+    {return} return exp? semi |
+    {block} block;
+  
+  exp =
+    {equal} [left]:arith equal [right]:arith |
+    {lt} [left]:arith lt [right]:arith |
+    {simple} arith;
+
+  arith =
+    {add} arith plus fac |
+    {sub} arith minus fac |
+    {simple} fac;
+    
+  fac =
+    {mul} fac star pow |
+    {simple} pow;
+    
+  pow =
+    {expo} term caret pow |
+    {simple} term;
+    
+  term =
+    {par} l_par exp r_par |
+    {num} num |
+    {false} false |
+    {true} true |
+    {string} string_literal |
+    {var} id |
+    {call} call;
+
+  call =
+    id l_par args? r_par;
+    
+  args =
+    arg [additional_args]:additional_arg*;
+    
+  additional_arg =
+    comma arg;
+    
+  arg =
+    exp;
+    
