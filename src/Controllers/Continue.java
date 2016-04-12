@@ -1,11 +1,9 @@
 /**
  * Created by Mathieu on 4/4/2016.
  */
-package Controllers;
+package controllers;
 
-import Lib.*;
-import java.math.BigInteger;
-import java.security.SecureRandom;
+import lib.*;
 
 public class Continue {
     public void execute(Observer observer) {

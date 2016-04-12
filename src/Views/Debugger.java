@@ -1,9 +1,9 @@
 /**
  * Created by Mathieu on 3/31/2016.
  */
-package Views;
-import Controllers.*;
-import Lib.*;
+package views;
+import controllers.*;
+import lib.*;
 
 import javafx.application.Application;
 import javafx.beans.property.SimpleStringProperty;
@@ -17,9 +17,10 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import java.util.concurrent.SynchronousQueue;
 
 public class Debugger extends Application {
+
+    static String[] mainArgs;
 
     String consoleOutputText = "";
     TextArea outputConsole;
@@ -33,6 +34,7 @@ public class Debugger extends Application {
     InterpretorRunnable interpretorRunnable;
 
     public static void main(String[] args) throws InterruptedException {
+        mainArgs = args;
         launch(args);
     }
 
@@ -75,9 +77,10 @@ public class Debugger extends Application {
             @Override
             public void handle(ActionEvent event) {
                 updateConsoleOutputText("Start");
-                if (interpretorRunnable ==  null){
+
+                if (interpretorRunnable ==  null || interpretorRunnable.observer.runnableHasEnded()){
                     Observer observer = new Observer();
-                    interpretorRunnable = new InterpretorRunnable(observer);
+                    interpretorRunnable = new InterpretorRunnable(mainArgs, observer);
                 }
             }
         });

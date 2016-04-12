@@ -2,7 +2,7 @@
  * Created by Mathieu on 4/4/2016.
  */
 
-package Controllers;
+package controllers;
 
 public class StepOver {
     public void execute() {

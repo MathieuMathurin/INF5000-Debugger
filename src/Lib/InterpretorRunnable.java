@@ -1,24 +1,22 @@
-package Lib;
-
-import java.util.concurrent.SynchronousQueue;
+package lib;
 
 /**
  * Created by ledrou_83 on 16-04-11.
  */
 public class InterpretorRunnable implements Runnable {
+    public String[] args;
     public Observer observer;
 
-    public InterpretorRunnable(Observer observer) {
+    public InterpretorRunnable(String[] args, Observer observer) {
+        this.args = args;
         this.observer = observer;
 
         new Thread(this).start();
     }
 
     public void run() {
-        while(true){
-            System.out.println("ON attend de tes nouvelles :) ...");
-
-            observer.waitForTestValue();
-        }
+        observer.updateState(RunnableState.RUNNING);
+        funlang.Main.main(args);
+        observer.updateState(RunnableState.ENDED);
     }
 }
