@@ -14,7 +14,7 @@ public class DebuggerUtils {
     }
 
     public void runBreakPoint(Frame frame, int lineNumber){
-        //if (observer.lineNumber != lineNumber) return;
+        if (!observer.command.equals(CommandType.CONTINUE) || observer.breakpoint != lineNumber) return;
 
         System.out.println("Line number: " + lineNumber);
         observer.updateUI(frame.toString());

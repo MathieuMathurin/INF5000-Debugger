@@ -20,6 +20,10 @@ import javafx.stage.Stage;
 
 public class Debugger extends Application {
 
+    // test
+    int breakpoint = 17;
+    //test
+
     static String[] mainArgs;
 
     String consoleOutputText = "";
@@ -82,6 +86,8 @@ public class Debugger extends Application {
                 if (interpretorRunnable ==  null || interpretorRunnable.observer.runnableHasEnded()){
                     Notifier notifier = new Notifier(fileView);
                     Observer observer = new Observer(notifier);
+                    observer.updateContinue(breakpoint);
+
                     interpretorRunnable = new InterpretorRunnable(mainArgs, observer);
                 }
             }
@@ -95,7 +101,7 @@ public class Debugger extends Application {
             public void handle(ActionEvent event) {
                 updateConsoleOutputText("Continue");
                 if (interpretorRunnable !=  null)
-                    cmdContinue.execute(interpretorRunnable.observer);
+                    cmdContinue.execute(interpretorRunnable.observer, breakpoint);
             }
         });
 

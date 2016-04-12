@@ -9,8 +9,8 @@ import java.security.SecureRandom;
 public class Observer {
 
     RunnableState runnableState;
-    String command;
-    String testValue;
+    CommandType command;
+    int breakpoint;
     Notifier textAreaNotifier;
 
     public Observer(Notifier n){
@@ -35,5 +35,12 @@ public class Observer {
 
     public synchronized boolean runnableHasEnded() {
         return runnableState == RunnableState.ENDED;
+    }
+
+    public synchronized void updateContinue(int breakpoint) {
+        this.command = CommandType.CONTINUE;
+        this.breakpoint = breakpoint;
+
+        notify();
     }
 }

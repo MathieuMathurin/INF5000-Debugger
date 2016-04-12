@@ -6,9 +6,9 @@ package controllers;
 import lib.*;
 
 public class Continue {
-    public void execute(Observer observer) {
+    public void execute(Observer observer, int breakpoint) {
         System.out.println("In continue command, sending data in the queue");
 
-        //TEST
+        observer.updateContinue(breakpoint);
     }
 }
