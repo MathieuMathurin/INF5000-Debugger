@@ -2,7 +2,6 @@
 package funlang;
 
 import funlang.syntax.node.*;
-import sun.org.mozilla.javascript.internal.Function;
 
 public class InterpreterException
         extends RuntimeException {
