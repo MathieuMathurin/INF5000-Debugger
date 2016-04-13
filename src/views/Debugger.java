@@ -62,6 +62,13 @@ public class Debugger extends Application {
     public void start(Stage primaryStage) throws InterruptedException {
         initCommands();
 
+        VBox breakpoints = new VBox();
+        breakpoints.getChildren().addAll(new CheckBox(), new CheckBox());
+
+        //LeftPanel for breakpoints
+        HBox center = new HBox();
+        center.getChildren().add(breakpoints);
+
         //Create buttons
         Button openBtn = new Button("Open");
         openBtn.setOnAction(new EventHandler<ActionEvent>() {
@@ -151,6 +158,7 @@ public class Debugger extends Application {
         commandButtonsPanel.getChildren().addAll(openBtn, startBtn, continueBtn, stepOverBtn, stepInBtn, stepOutBtn, stopBtn);
         fileView = new TextArea();
         fileView.setEditable(false);
+        center.getChildren().add(fileView);
         outputConsole = new TextArea();
         outputConsole.setEditable(false);
         outputConsole.setText(consoleOutputText);
@@ -158,10 +166,12 @@ public class Debugger extends Application {
         variable = new TextField();
         newLine.getChildren().addAll(variable, addWatchBtn);
         mainPanel.setTop(commandButtonsPanel);
-        mainPanel.setCenter(fileView);
+        mainPanel.setCenter(center);
         mainPanel.setRight(rightPane);
         mainPanel.setBottom(outputConsole);
         Scene scene = new Scene(mainPanel, 1000, 1500 );
+        scene.getStylesheets().add(this.getClass()
+                .getResource("checkBox.css").toExternalForm());
         primaryStage.setTitle("Debugger");
         primaryStage.setScene(scene);
         primaryStage.show();
