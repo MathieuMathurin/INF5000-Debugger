@@ -37,4 +37,8 @@ public class BoolValue
         return this.value;
     }
 
+    @Override
+    public String toString() {
+        return ""+value;
+    }
 }

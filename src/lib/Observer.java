@@ -1,7 +1,8 @@
 package lib;
 
-import java.math.BigInteger;
-import java.security.SecureRandom;
+import controllers.CommandType;
+import funlang.Frame;
+import views.UIupdater;
 
 /**
  * Created by ledrou_83 on 16-04-11.
@@ -11,14 +12,15 @@ public class Observer {
     RunnableState runnableState;
     CommandType command;
     int breakpoint;
-    Notifier textAreaNotifier;
+    UIupdater textAreaNotifier;
 
-    public Observer(Notifier n){
+    public Observer(UIupdater n){
         textAreaNotifier = n;
     }
 
-    public synchronized void updateUI(String s){
-        textAreaNotifier.pushNotification(s);
+    public synchronized void updateUI(Frame f){
+        textAreaNotifier.pushNotification(f);
+        notify();
     }
 
     public synchronized void waitNextCommand() {

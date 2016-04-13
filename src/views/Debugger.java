@@ -13,13 +13,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 public class Debugger extends Application {
 
     // test
     //TODO start sans breakpoint , break a la premiere ligne de code
     // TODO si on change des valeurs locales au runtime, on doit faire la verif de TYPES
-    int breakpoint = 26;
+    int breakpoint = 36;
     //test
 
     static String[] mainArgs;
@@ -27,6 +28,7 @@ public class Debugger extends Application {
     String consoleOutputText = "";
     TextArea outputConsole;
     TextArea fileView;
+    TableView localVariablesView;
     TextField variable;
 
     // Commands
@@ -61,7 +63,7 @@ public class Debugger extends Application {
             @Override
             public void handle(ActionEvent event) {
                 if (interpretorRunnable == null || interpretorRunnable.observer.runnableHasEnded()) {
-                    interpretorRunnable = cmdStart.execute(mainArgs, breakpoint, fileView);
+                    interpretorRunnable = cmdStart.execute(mainArgs, breakpoint, fileView, localVariablesView);
                 }
             }
         });
@@ -147,6 +149,24 @@ public class Debugger extends Application {
         primaryStage.setTitle("Debugger");
         primaryStage.setScene(scene);
         primaryStage.show();
+
+
+        //LOCAL VARIABLES
+        localVariablesView = new TableView<UIPairComponent>();
+        localVariablesView.setEditable(true);
+        TableColumn localVariablesColumnName= new TableColumn("Name");
+        localVariablesColumnName.prefWidthProperty().bind(localVariablesView.widthProperty().divide(2));
+        localVariablesColumnName.setCellValueFactory(new PropertyValueFactory<UIPairComponent,String>("variable"));
+        localVariablesColumnName.setEditable(true);
+
+        TableColumn localVariablesColumnValue = new TableColumn("Value");
+        localVariablesColumnValue.setCellValueFactory(new PropertyValueFactory<UIPairComponent,String>("value"));
+        localVariablesColumnValue.prefWidthProperty().bind(localVariablesView.widthProperty().divide(2));
+        localVariablesColumnValue.setEditable(false);
+
+        localVariablesView.getColumns().addAll(localVariablesColumnName, localVariablesColumnValue);
+        rightPane.getChildren().addAll(localVariablesView, newLine);
+        //LOCAL VARIABLES
     }
 
     private String getNewWatchTextAndReset(){

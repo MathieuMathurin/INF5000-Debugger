@@ -1,5 +1,6 @@
 package lib;
 
+import controllers.CommandType;
 import funlang.Frame;
 
 /**
@@ -21,7 +22,7 @@ public class DebuggerUtils {
                 && frame.getPreviousFrame() != this.lastFrame))
         {
             System.out.println("Command: " + observer.command + " Line number: " + lineNumber);
-            observer.updateUI(frame.toString());
+            observer.updateUI(frame);
             observer.waitNextCommand();
 
             lastFrame = frame;

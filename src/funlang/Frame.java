@@ -10,6 +10,7 @@ public class Frame {
     private FunctionInfo functionInfo;
 
     private Map<String, Value> variables = new HashMap<String, Value>();
+    public Map<String, Value> getVariables() { return variables; }
 
     private Value returnValue;
 
