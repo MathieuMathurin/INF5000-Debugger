@@ -35,6 +35,7 @@ public class Debugger extends Application {
     Continue cmdContinue;
     StepIn cmdStepIn;
     StepOver cmdStepOver;
+    StepOut cmdStepOut;
 
     InterpretorRunnable interpretorRunnable;
 
@@ -48,6 +49,7 @@ public class Debugger extends Application {
         cmdContinue = new Continue();
         cmdStepIn = new StepIn();
         cmdStepOver = new StepOver();
+        cmdStepOut = new StepOut();
     }
 
     @Override
@@ -59,7 +61,7 @@ public class Debugger extends Application {
         startBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                if (interpretorRunnable ==  null || interpretorRunnable.observer.runnableHasEnded()){
+                if (interpretorRunnable == null || interpretorRunnable.observer.runnableHasEnded()) {
                     interpretorRunnable = cmdStart.execute(mainArgs, breakpoint, fileView);
                 }
             }
@@ -94,6 +96,16 @@ public class Debugger extends Application {
             }
         });
 
+        Button stepOutBtn = new Button("Step Out");
+        stepInBtn.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent event) {
+                if (interpretorRunnable != null)
+                    cmdStepOut.execute(interpretorRunnable.observer);
+            }
+        });
+
         Button stopBtn = new Button("Stop");
         stopBtn.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -119,7 +131,7 @@ public class Debugger extends Application {
         commandButtonsPanel.setSpacing(10);
         VBox rightPane = new VBox();
         rightPane.setSpacing(10);
-        commandButtonsPanel.getChildren().addAll(startBtn, continueBtn, stepOverBtn, stepInBtn, stopBtn);
+        commandButtonsPanel.getChildren().addAll(startBtn, continueBtn, stepOverBtn, stepInBtn, stepOutBtn, stopBtn);
         fileView = new TextArea();
         fileView.setEditable(false);
         outputConsole = new TextArea();

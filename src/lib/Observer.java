@@ -53,4 +53,9 @@ public class Observer {
         this.command = CommandType.STEP_IN;
         notify();
     }
+
+    public synchronized void sendStepOut() {
+        this.command = CommandType.STEP_OUT;
+        notify();
+    }
 }
