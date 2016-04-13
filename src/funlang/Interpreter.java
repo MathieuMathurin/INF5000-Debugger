@@ -62,8 +62,8 @@ public class Interpreter
         Value result = this.currentFrame.getReturnValue();
         if (result == null && this.currentFrame.getFunctionInfo()
                 .getReturnType() != FunType.VOID) {
-            throw new InterpreterException("missing return statement",
-                    ((ABlockBlock) node.getBlock()).getRBrace());
+            throw new InterpreterException(InterpreterException.getMessage("missing return statement",
+                    ((ABlockBlock) node.getBlock()).getRBrace(), this.currentFrame));
         }
     }
 
@@ -103,8 +103,7 @@ public class Interpreter
             this.currentFrame.setReturnValue(new StringValue(s));
         }
         else {
-            throw new InterpreterException(
-                    "unhandled function \"" + name + "\"", node.getSemi());
+            throw new InterpreterException(InterpreterException.getMessage("unhandled function \"" + name + "\"", node.getSemi(), this.currentFrame));
         }
     }
 
@@ -271,7 +270,7 @@ public class Interpreter
         int exponent = ((IntValue) this.result).getValue();
 
         if (exponent < 0) {
-            throw new InterpreterException("invalid exponent", node.getCaret());
+            throw new InterpreterException(InterpreterException.getMessage("invalid exponent", node.getCaret(), this.currentFrame));
         }
 
         int result = 1;
@@ -323,7 +322,7 @@ public class Interpreter
     @Override
     public void caseACall(
             ACall node) {
-        debuggerUtils.runBreakPoint(this.currentFrame, node.getId().getLine());
+//        debuggerUtils.runBreakPoint(this.currentFrame, node.getId().getLine());
 
         // get function
         String name = node.getId().getText();
@@ -344,6 +343,7 @@ public class Interpreter
         List<Variable> parameters = functionInfo.getParameters();
 
         // create new frame
+        this.currentFrame.setCallingLine(node.getLPar().getLine());
         this.currentFrame = new Frame(this.currentFrame, functionInfo);
 
         // fill frame

@@ -58,6 +58,7 @@ public class Main {
         }
         catch (InterpreterException e) {
             System.err.println(e.getMessage());
+
             System.exit(1);
         }
         catch (IOException e) {

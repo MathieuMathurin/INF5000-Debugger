@@ -8,7 +8,6 @@ fun min(a: int, b: int): int {
   if (a < b) {
     return a;
   }
-  
   return b;
 }
 
@@ -17,10 +16,6 @@ fun min(a: int, b: int): int {
   println();
 
   printstring("min(3,4) = ");
-  printint(min(3,4));
+  printint(min(5,4));
   println();
-
-  var x = readint();
-  printstring("YO!");
-  printint(x);
 }

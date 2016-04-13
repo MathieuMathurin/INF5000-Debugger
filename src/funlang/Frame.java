@@ -5,6 +5,8 @@ import java.util.*;
 
 public class Frame {
 
+    private int callingLine;
+
     private Frame previousFrame;
 
     private FunctionInfo functionInfo;
@@ -18,6 +20,14 @@ public class Frame {
             FunctionInfo functionInfo) {
         this.previousFrame = previousFrame;
         this.functionInfo = functionInfo;
+    }
+
+    public int getCallingLine(){
+        return this.callingLine;
+    }
+
+    public void setCallingLine(int line){
+        this.callingLine = line;
     }
 
     public Frame getPreviousFrame() {
