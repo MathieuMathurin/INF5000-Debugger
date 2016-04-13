@@ -18,9 +18,8 @@ public class Debugger extends Application {
 
     // test
     //TODO start sans breakpoint , break a la premiere ligne de code
-    //TODO step out
     // TODO si on change des valeurs locales au runtime, on doit faire la verif de TYPES
-    int breakpoint = 24;
+    int breakpoint = 26;
     //test
 
     static String[] mainArgs;
@@ -97,7 +96,7 @@ public class Debugger extends Application {
         });
 
         Button stepOutBtn = new Button("Step Out");
-        stepInBtn.setOnAction(new EventHandler<ActionEvent>() {
+        stepOutBtn.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
             public void handle(ActionEvent event) {

@@ -70,8 +70,6 @@ public class Interpreter
     @Override
     public void caseAInternalBody(
             AInternalBody node) {
-        debuggerUtils.runBreakPoint(this.currentFrame, node.
-
         FunctionInfo functionInfo = this.currentFrame.getFunctionInfo();
         String name = functionInfo.getName();
 
