@@ -9,7 +9,6 @@ fun min(a: int, b: int): int
   if (a < b) {
     return a;
   }
-  
   return b;
 }
 fun retourne(): int
@@ -32,8 +31,4 @@ fun retourne(): int
   y = 10;
 
   println();
-
-  var x = readint();
-  printstring("YO!");
-  printint(x);
 }

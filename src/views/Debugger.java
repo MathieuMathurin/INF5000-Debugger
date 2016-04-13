@@ -3,6 +3,7 @@
  */
 package views;
 import controllers.*;
+import javafx.stage.FileChooser;
 import lib.*;
 
 import javafx.application.Application;
@@ -15,6 +16,8 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+import java.io.File;
+
 public class Debugger extends Application {
 
     // test
@@ -26,6 +29,9 @@ public class Debugger extends Application {
     static String[] mainArgs;
 
     String consoleOutputText = "";
+
+    //Controls
+    FileChooser fileChooser = new FileChooser();
     TextArea outputConsole;
     TextArea fileView;
     TableView localVariablesView;
@@ -58,6 +64,16 @@ public class Debugger extends Application {
         initCommands();
 
         //Create buttons
+        Button openBtn = new Button("Open");
+        openBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                File file = fileChooser.showOpenDialog(new Stage());
+                if(file != null)
+                System.out.println(file.toString());
+            }
+        });
+
         Button startBtn = new Button("Start");
         startBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -126,13 +142,14 @@ public class Debugger extends Application {
             }
         });
 
+        //fileView = new TextArea(mockContent);
         BorderPane mainPanel = new BorderPane();
         HBox commandButtonsPanel = new HBox();
         commandButtonsPanel.setPadding(new Insets(15, 12, 15, 12));
         commandButtonsPanel.setSpacing(10);
         VBox rightPane = new VBox();
         rightPane.setSpacing(10);
-        commandButtonsPanel.getChildren().addAll(startBtn, continueBtn, stepOverBtn, stepInBtn, stepOutBtn, stopBtn);
+        commandButtonsPanel.getChildren().addAll(openBtn, startBtn, continueBtn, stepOverBtn, stepInBtn, stepOutBtn, stopBtn);
         fileView = new TextArea();
         fileView.setEditable(false);
         outputConsole = new TextArea();
