@@ -26,7 +26,6 @@ public class OpenHandler implements EventHandler<ActionEvent>{
 
     @Override
     public void handle(ActionEvent actionEvent) {
-        window.model.fileText = "";
         file = window.fileChooser.showOpenDialog(new Stage());
         Boolean hasError = false;
         int lines = 0;
@@ -35,7 +34,7 @@ public class OpenHandler implements EventHandler<ActionEvent>{
                 List<String> temp = Files.readAllLines(file.toPath(), Charset.defaultCharset());
                 for(String line : temp){
                     ++lines;
-                    window.model.fileText = window.model.fileText.concat(line + "<br/>");
+                    this.window.model.originalFileTextLines.add(this.window.model.preLineHtml + line + this.window.model.postLineHtml);
                 }
             }
         } catch (IOException e) {
@@ -44,7 +43,7 @@ public class OpenHandler implements EventHandler<ActionEvent>{
         }
         if(!hasError){
             //Enable buttons
-            window.setFileText(window.model.fileText);
+            window.setFileText();
             window.initBreakPoints(lines);
         }
     }

@@ -11,17 +11,18 @@ import java.util.Map;
 import funlang.Frame;
 import funlang.Value;
 import javafx.scene.web.HTMLEditor;
+import javafx.scene.web.WebView;
 
 /**
  * Created by ledrou_83 on 16-04-12.
  */
 public class UIupdater {
 //    TextArea fileView;
-    HTMLEditor fileView;
+    WebView fileView;
     TableView<UIPairComponent> localVariables;
 
 
-    public UIupdater(HTMLEditor fileView, TableView<UIPairComponent> localVariables) {
+    public UIupdater(WebView fileView, TableView<UIPairComponent> localVariables) {
         this.fileView = fileView;
         this.localVariables = localVariables;
     }

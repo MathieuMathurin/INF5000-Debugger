@@ -15,6 +15,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.HTMLEditor;
+import javafx.scene.web.WebView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import lib.InterpretorRunnable;
@@ -48,10 +49,10 @@ public class MainWindow {
     //Controls
     public FileChooser fileChooser;
     private TextArea outputConsole;
-//    private TextArea fileView;
+    //    private TextArea fileView;
     private TableView<UIPairComponent> localVariablesView;
     private TextField variable;
-    HTMLEditor fileView;
+    WebView fileView;
 
     //Buttons
     private Button openBtn;
@@ -83,14 +84,9 @@ public class MainWindow {
         }
         fileChooser.setInitialDirectory(userDirectory);
 
+        //init File view
+        fileView = new WebView();
 
-        String textMock = "<!DOCTYPE html><html><head><style>html{font-size:100px; overflow: scroll;}span{background-color: yellow;}</style></head><body><div>This is a <span>test.</span> A super long test.</div></body></html>";
-
-        fileView = new HTMLEditor();
-        fileView.setHtmlText(textMock);
-        //init text areas
-//        fileView = new TextArea();
-//        fileView.setEditable(false);
         outputConsole = new TextArea();
         outputConsole.setEditable(false);
         outputConsole.setText(model.consoleOutputText);
@@ -113,15 +109,16 @@ public class MainWindow {
         newLinePane = new HBox();
 
         //AddItems to Panes
-        centerPane.getChildren().add(breakpointsPane);
-        centerPane.getChildren().add(fileView);
+        centerPane.getChildren().addAll(breakpointsPane, fileView);
         newLinePane.getChildren().addAll(variable, addWatchBtn);
         rightPane.getChildren().addAll(localVariablesView, newLinePane);
 
 
+//        fileView.prefWidthProperty().bind(centerPane.widthProperty());
+//        fileView.prefHeightProperty().bind(centerPane.heightProperty());
         mainPanel.setTop(commandButtonsPanel);
         mainPanel.setCenter(centerPane);
-        mainPanel.setRight(rightPane);
+//        mainPanel.setRight(rightPane);
         mainPanel.setBottom(outputConsole);
 
         scene = new Scene(mainPanel, 1000, 1500 );
@@ -192,8 +189,17 @@ public class MainWindow {
         }
     }
 
-    public void setFileText(String s){
-        this.fileView.setHtmlText(s);
+    public void setFileText(){
+        String text = "";
+        text = text.concat(this.model.preFileTextHtml);
+
+        for(String line : this.model.originalFileTextLines){
+            text = text.concat(line);
+        }
+
+        text = text.concat(this.model.postFileTextHtml);
+
+        this.fileView.getEngine().loadContent(text);
     }
 
 }
