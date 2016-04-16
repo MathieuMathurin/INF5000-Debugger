@@ -12,7 +12,11 @@ public class Start {
     public InterpretorRunnable execute(String[] args, HashMap<Integer, Integer> breakpoints, UIupdater n){
         UIupdater notifier = n;
         Observer observer = new Observer(notifier);
-        observer.sendContinue(breakpoints);
+        
+        if(!breakpoints.isEmpty())
+            observer.sendContinue(breakpoints);
+        else
+            observer.sendStepIn();
 
         return new InterpretorRunnable(args, observer);
     }

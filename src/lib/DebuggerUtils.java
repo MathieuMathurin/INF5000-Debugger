@@ -10,6 +10,11 @@ public class DebuggerUtils {
     public Observer observer;
     public Frame lastFrame;
 
+    // Use case flags
+    boolean next; // When NEXT or Starting the program without any breakpoints
+
+    //
+
     public DebuggerUtils(Observer observer){
         this.observer = observer;
     }

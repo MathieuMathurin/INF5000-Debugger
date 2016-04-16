@@ -18,6 +18,7 @@ public class Observer {
 
     public Observer(UIupdater n){
         textAreaNotifier = n;
+        breakpoints = new HashMap<>();
     }
 
     public synchronized void updateUI(Frame f){
