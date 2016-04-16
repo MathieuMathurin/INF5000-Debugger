@@ -15,7 +15,7 @@ public class DebuggerUtils {
     }
 
     public void runBreakPoint(Frame frame, int lineNumber){
-        if (observer.breakpoint == lineNumber
+        if (observer.breakpoints.containsKey(lineNumber)
             || observer.command.equals(CommandType.STEP_IN)
             || observer.command.equals((CommandType.STEP_OUT))
             || (observer.command.equals(CommandType.STEP_OVER)

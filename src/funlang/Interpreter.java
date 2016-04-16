@@ -322,7 +322,7 @@ public class Interpreter
     @Override
     public void caseACall(
             ACall node) {
-//        debuggerUtils.runBreakPoint(this.currentFrame, node.getId().getLine());
+        debuggerUtils.runBreakPoint(this.currentFrame, node.getId().getLine());
 
         // get function
         String name = node.getId().getText();

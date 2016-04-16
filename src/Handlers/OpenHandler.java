@@ -7,6 +7,10 @@ import javafx.stage.Stage;
 import views.MainWindow;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.util.List;
 
 /**
  * Created by Mathieu on 4/13/2016.
@@ -22,13 +26,26 @@ public class OpenHandler implements EventHandler<ActionEvent>{
 
     @Override
     public void handle(ActionEvent actionEvent) {
+        window.model.fileText = "";
         file = window.fileChooser.showOpenDialog(new Stage());
-        if(window.model.file != null) {
-            //Enable Start button
+        Boolean hasError = false;
+        int lines = 0;
+        try {
+            if(file != null){
+                List<String> temp = Files.readAllLines(file.toPath(), Charset.defaultCharset());
+                for(String line : temp){
+                    ++lines;
+                    window.model.fileText = window.model.fileText.concat(line + "<br/>");
+                }
+            }
+        } catch (IOException e) {
+            file = null;
+            hasError = true;
         }
-    }
-
-    public File getFile(){
-        return file;
+        if(!hasError){
+            //Enable buttons
+            window.setFileText(window.model.fileText);
+            window.initBreakPoints(lines);
+        }
     }
 }
