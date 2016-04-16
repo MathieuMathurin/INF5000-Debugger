@@ -1,0 +1,17 @@
+.check-box>.box {
+  -fx-background-insets: 0;
+  -fx-background-radius: 50px, 50px;
+  -fx-background-color: transparent;
+  -fx-background-insets: 0, 1;
+}
+
+.check-box>.box>.mark {
+  -fx-background-image: url("unmarked.png");
+  -fx-background-position: center;
+  -fx-background-repeat: stretch;
+}
+
+.check-box:selected>.box>.mark{
+  -fx-background-color: red;
+  -fx-shape: "M-50,0a50,50 0 1,0 100,0a50,50 0 1,0 -100,0";
+}

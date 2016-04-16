@@ -27,7 +27,6 @@ public class Main {
                 System.exit(1);
             }
 
-            // COMPILATOR
             Reader in = new FileReader(args[0]);
             Lexer lexer = new Lexer(new PushbackReader(in, 1024));
             Parser parser = new Parser(lexer);
@@ -35,13 +34,7 @@ public class Main {
 
             // Verify semantics
             Semantics semantics = SemanticVerifier.verify(tree);
-            // COMPILATOR
 
-
-
-            // On travaillea partir d'ici
-            // Interpret
-            // On ne touche pas au compilator, nos sleeps seront dans Interpretor
             Interpreter.interpret(tree, semantics, observer);
         }
         catch (LexerException e) {

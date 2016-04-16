@@ -5,8 +5,10 @@ package controllers;
 
 import lib.*;
 
+import java.util.HashMap;
+
 public class Continue {
-    public void execute(Observer observer, int breakpoint) {
-        observer.sendContinue(breakpoint);
+    public void execute(Observer observer, HashMap<Integer, Integer> breakpoints) {
+        observer.sendContinue(breakpoints);
     }
 }
