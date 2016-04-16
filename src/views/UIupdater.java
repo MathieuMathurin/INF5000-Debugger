@@ -17,9 +17,8 @@ import javafx.scene.web.WebView;
  * Created by ledrou_83 on 16-04-12.
  */
 public class UIupdater {
-    //    TextArea fileView;
-    WebView fileView;
-    TableView<UIPairComponent> localVariables;
+    private WebView fileView;
+    private TableView<UIPairComponent> localVariables;
 
 
     public UIupdater(WebView fileView, TableView<UIPairComponent> localVariables) {
@@ -28,8 +27,7 @@ public class UIupdater {
     }
 
     public void pushNotification(Frame f){
-        //updateLocalVariablesWindow(f.getVariables());
-
+        updateLocalVariablesWindow(f.getVariables());
     }
 
     private void updateLocalVariablesWindow(Map<String, Value> variables) {
@@ -43,6 +41,6 @@ public class UIupdater {
             observableVariables.add(new UIPairComponent(pair.getKey().toString(), pair.getValue().toString()));
         }
 
-//        localVariables.setItems(observableVariables);
+        localVariables.setItems(observableVariables);
     }
 }

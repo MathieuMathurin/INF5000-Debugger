@@ -71,7 +71,6 @@ public class MainWindow {
         breakpointsPane = new VBox();
         breakpointsPane.setPrefWidth(350);
 
-
         //init file chooser
         fileChooser = new FileChooser();
         FileChooser.ExtensionFilter extentionFilter = new FileChooser.ExtensionFilter("Funlang files (*.funlang)", "*.funlang");
@@ -117,7 +116,7 @@ public class MainWindow {
 //        fileView.prefHeightProperty().bind(centerPane.heightProperty());
         mainPanel.setTop(commandButtonsPanel);
         mainPanel.setCenter(centerPane);
-//        mainPanel.setRight(rightPane);
+        mainPanel.setRight(rightPane);
         mainPanel.setBottom(outputConsole);
 
         scene = new Scene(mainPanel, 1000, 1500 );
@@ -127,6 +126,8 @@ public class MainWindow {
         for (Node toolBar = fileView.lookup(".tool-bar"); toolBar != null; toolBar = fileView.lookup(".tool-bar")) {
             ((Pane) toolBar.getParent()).getChildren().remove(toolBar);
         }
+
+        initButtonsHandlers();
 
         return scene;
     }
@@ -150,8 +151,6 @@ public class MainWindow {
         stepOutBtn = new Button("Step Out");
         stopBtn = new Button("Stop");
         addWatchBtn = new Button(" + ");
-
-        initButtonsHandlers();
     }
 
     private void initButtonsHandlers(){
