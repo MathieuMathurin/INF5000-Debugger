@@ -10,22 +10,25 @@ import java.util.Map;
 
 import funlang.Frame;
 import funlang.Value;
+import javafx.scene.web.HTMLEditor;
+import javafx.scene.web.WebView;
 
 /**
  * Created by ledrou_83 on 16-04-12.
  */
 public class UIupdater {
-    TextArea fileView;
+    //    TextArea fileView;
+    WebView fileView;
     TableView<UIPairComponent> localVariables;
 
 
-    public UIupdater(TextArea fileView, TableView<UIPairComponent> localVariables) {
+    public UIupdater(WebView fileView, TableView<UIPairComponent> localVariables) {
         this.fileView = fileView;
         this.localVariables = localVariables;
     }
 
     public void pushNotification(Frame f){
-        updateLocalVariablesWindow(f.getVariables());
+        //updateLocalVariablesWindow(f.getVariables());
 
     }
 
@@ -40,6 +43,6 @@ public class UIupdater {
             observableVariables.add(new UIPairComponent(pair.getKey().toString(), pair.getValue().toString()));
         }
 
-        localVariables.setItems(observableVariables);
+//        localVariables.setItems(observableVariables);
     }
 }

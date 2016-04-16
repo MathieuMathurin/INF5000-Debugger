@@ -6,13 +6,15 @@ import lib.InterpretorRunnable;
 import lib.Observer;
 import views.UIupdater;
 
-public class Start {
-    public InterpretorRunnable execute(String[] args, int breakpoint, TextArea fileView, TableView localVariablesView){
-        UIupdater notifier = new UIupdater(fileView, localVariablesView);
-        Observer observer = new Observer(notifier);
+import java.util.HashMap;
 
-        if(breakpoint != -1)
-            observer.sendContinue(breakpoint);
+public class Start {
+    public InterpretorRunnable execute(String[] args, HashMap<Integer, Integer> breakpoints, UIupdater n){
+        UIupdater notifier = n;
+        Observer observer = new Observer(notifier);
+        
+        if(!breakpoints.isEmpty())
+            observer.sendContinue(breakpoints);
         else
             observer.sendStepIn();
 

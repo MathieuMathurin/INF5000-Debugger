@@ -4,6 +4,8 @@ import controllers.CommandType;
 import funlang.Frame;
 import views.UIupdater;
 
+import java.util.HashMap;
+
 /**
  * Created by ledrou_83 on 16-04-11.
  */
@@ -11,11 +13,12 @@ public class Observer {
 
     RunnableState runnableState;
     CommandType command;
-    int breakpoint;
+    HashMap<Integer, Integer> breakpoints;
     UIupdater textAreaNotifier;
 
     public Observer(UIupdater n){
         textAreaNotifier = n;
+        breakpoints = new HashMap<>();
     }
 
     public synchronized void updateUI(Frame f){
@@ -39,9 +42,9 @@ public class Observer {
         return runnableState == RunnableState.ENDED;
     }
 
-    public synchronized void sendContinue(int breakpoint) {
+    public synchronized void sendContinue(HashMap<Integer, Integer> breakpoints) {
         this.command = CommandType.CONTINUE;
-        this.breakpoint = breakpoint;
+        this.breakpoints = breakpoints;
 
         notify();
     }
