@@ -128,9 +128,9 @@ public class MainWindow {
         scene.getStylesheets().add(this.getClass()
                 .getResource("checkBox.css").toExternalForm());
 
-        for (Node toolBar = fileView.lookup(".tool-bar"); toolBar != null; toolBar = fileView.lookup(".tool-bar")) {
-            ((Pane) toolBar.getParent()).getChildren().remove(toolBar);
-        }
+//        for (Node toolBar = fileView.lookup(".tool-bar"); toolBar != null; toolBar = fileView.lookup(".tool-bar")) {
+//            ((Pane) toolBar.getParent()).getChildren().remove(toolBar);
+//        }
 
         return scene;
     }
