@@ -10,7 +10,11 @@ public class Start {
     public InterpretorRunnable execute(String[] args, int breakpoint, TextArea fileView, TableView localVariablesView){
         UIupdater notifier = new UIupdater(fileView, localVariablesView);
         Observer observer = new Observer(notifier);
-        observer.sendContinue(breakpoint);
+
+        if(breakpoint != -1)
+            observer.sendContinue(breakpoint);
+        else
+            observer.sendStepIn();
 
         return new InterpretorRunnable(args, observer);
     }

@@ -21,9 +21,8 @@ import java.io.File;
 public class Debugger extends Application {
 
     // test
-    //TODO start sans breakpoint , break a la premiere ligne de code
     // TODO si on change des valeurs locales au runtime, on doit faire la verif de TYPES
-    int breakpoint = 36;
+    int breakpoint = 30;
     //test
 
     static String[] mainArgs;
