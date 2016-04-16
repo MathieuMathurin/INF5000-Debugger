@@ -8,7 +8,8 @@ import funlang.Frame;
  */
 public class DebuggerUtils {
     public Observer observer;
-    public Frame lastFrame;
+    public Frame lastFrame; // Le frame du dernier breakpoint, pas necessairement le parent
+    public Frame parentFrame; // Le frame du parent du lastFrame
 
     // Use case flags
     boolean next; // When NEXT or Starting the program without any breakpoints
@@ -22,7 +23,9 @@ public class DebuggerUtils {
     public void runBreakPoint(Frame frame, int lineNumber){
         if (observer.breakpoints.containsKey(lineNumber)
             || observer.command.equals(CommandType.STEP_IN)
-            || observer.command.equals((CommandType.STEP_OUT))
+            || (observer.command.equals((CommandType.STEP_OUT))
+                && parentFrame !=  null
+                && frame == parentFrame)
             || (observer.command.equals(CommandType.STEP_OVER)
                 && frame.getPreviousFrame() != this.lastFrame))
         {
@@ -30,6 +33,8 @@ public class DebuggerUtils {
             observer.updateUI(frame);
             observer.waitNextCommand();
 
+            if (lastFrame !=  null && frame != lastFrame)
+                parentFrame = lastFrame;
             lastFrame = frame;
         }
     }

@@ -315,7 +315,6 @@ public class Interpreter
     @Override
     public void caseAVarTerm(
             AVarTerm node) {
-
         this.result = this.currentFrame.getVariable(node.getId().getText());
     }
 
