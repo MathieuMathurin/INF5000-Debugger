@@ -24,9 +24,8 @@ fun retourne(): int
 
   min(retourne(),5);
   printint(min(3,4));
-
-  println();
   var y = 5;
+  println();
   printint(y);
   y = 10;
 
