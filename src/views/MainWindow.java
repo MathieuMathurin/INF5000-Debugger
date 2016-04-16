@@ -29,7 +29,6 @@ import java.io.File;
 public class MainWindow {
 
     // test
-    //TODO start sans breakpoint , break a la premiere ligne de code
     // TODO si on change des valeurs locales au runtime, on doit faire la verif de TYPES
 
 
