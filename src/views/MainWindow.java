@@ -180,7 +180,7 @@ public class MainWindow {
     public void initBreakPoints(int lines){
         for(int i = 0; i < lines; ++i){
             //Creation de checkbox et ajout du controle
-            breakpointsPane.getChildren().add(new BreakPoint(this, i).box);
+            breakpointsPane.getChildren().add(new BreakPoint(this, i + 1).box);
         }
     }
 

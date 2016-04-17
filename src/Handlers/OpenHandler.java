@@ -28,7 +28,7 @@ public class OpenHandler implements EventHandler<ActionEvent>{
     public void handle(ActionEvent actionEvent) {
         file = window.fileChooser.showOpenDialog(new Stage());
         Boolean hasError = false;
-        int lines = 1;
+        int lines = 0;
         try {
             if(file != null){
                 List<String> temp = Files.readAllLines(file.toPath(), Charset.defaultCharset());
