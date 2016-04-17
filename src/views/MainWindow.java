@@ -119,7 +119,7 @@ public class MainWindow {
 //        fileView.prefHeightProperty().bind(centerPane.heightProperty());
         mainPanel.setTop(commandButtonsPanel);
         mainPanel.setCenter(centerPane);
-//        mainPanel.setRight(rightPane);
+        mainPanel.setRight(rightPane);
         mainPanel.setBottom(outputConsole);
 
         scene = new Scene(mainPanel, 1000, 1500 );

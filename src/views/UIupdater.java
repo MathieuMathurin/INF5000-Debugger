@@ -18,6 +18,9 @@ import javafx.scene.web.WebView;
  * Created by ledrou_83 on 16-04-12.
  */
 public class UIupdater {
+    //    TextArea fileView;
+    WebView fileView;
+    TableView<UIPairComponent> localVariables;
 
     MainWindow window;
 

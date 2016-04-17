@@ -18,16 +18,11 @@ fun retourne(): int
 
 {
   printstring("Hello world!");
-  println();
 
-  printstring("min(3,4) = ");
-
-  min(retourne(),5);
-  printint(min(3,4));
   var y = 5;
-  println();
-  printint(y);
+
   y = 10;
 
-  println();
+  y = 15;
+
 }
