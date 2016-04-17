@@ -15,8 +15,6 @@ public class InterpretorRunnable implements Runnable {
     }
 
     public void run() {
-        observer.updateState(RunnableState.RUNNING);
         funlang.Main.startDebugMode(args, observer);
-        observer.updateState(RunnableState.ENDED);
     }
 }

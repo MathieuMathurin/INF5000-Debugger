@@ -23,6 +23,13 @@ public class StartHandler implements EventHandler<ActionEvent> {
     public void handle(ActionEvent event) {
         if (window.interpretorRunnable == null || window.interpretorRunnable.observer.runnableHasEnded()) {
             window.interpretorRunnable = cmdStart.execute(window.model.args, window.model.breakpoints, this.window.uIupdater);
+
+            window.stopBtn.setDisable(false);
+            window.stepOutBtn.setDisable(false);
+            window.stepInBtn.setDisable(false);
+            window.stepOverBtn.setDisable(false);
+            window.addWatchBtn.setDisable(false);
+            window.continueBtn.setDisable(false);
         }
     }
 }

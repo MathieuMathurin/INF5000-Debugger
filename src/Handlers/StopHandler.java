@@ -18,5 +18,12 @@ public class StopHandler implements EventHandler<ActionEvent> {
     @Override
     public void handle(ActionEvent event) {
         window.interpretorRunnable = null; // Ne jamais relancer un thread...
+
+        this.window.stopBtn.setDisable(true);
+        this.window.stepOutBtn.setDisable(true);
+        this.window.stepInBtn.setDisable(true);
+        this.window.stepOverBtn.setDisable(true);
+        this.window.addWatchBtn.setDisable(true);
+        this.window.continueBtn.setDisable(true);
     }
 }
