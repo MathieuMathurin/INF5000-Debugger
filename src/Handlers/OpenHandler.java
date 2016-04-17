@@ -33,8 +33,12 @@ public class OpenHandler implements EventHandler<ActionEvent>{
             if(file != null){
                 List<String> temp = Files.readAllLines(file.toPath(), Charset.defaultCharset());
                 for(String line : temp){
+                    String l = line;
                     ++lines;
-                    this.window.model.originalFileTextLines.add(line);
+                    if(l.trim().isEmpty()){
+                        l = "<br>";
+                    }
+                    this.window.model.originalFileTextLines.add(l);
                 }
                 hasError = false;
             }

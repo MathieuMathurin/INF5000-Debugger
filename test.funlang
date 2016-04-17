@@ -13,12 +13,13 @@ fun min(a: int, b: int): int
 }
 fun retourne(): int
 {
-  return 1;
+  return 4^(4-5);
 }
 
 {
   printstring("Hello world!");
   var y = 5;
+  retourne();
   y = 10;
   printint(min(y, 4));
 
