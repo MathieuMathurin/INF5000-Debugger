@@ -23,7 +23,7 @@ public class ViewModel {
 
     public ViewModel(String[] args){
         this.consoleOutputText = "";
-        this.args = args;
+        this.args = new String[1];
         this.breakpoints = new HashMap<>();
         this.originalFileTextLines = new ArrayList<>();
         this.modifiedFileTextLines = new ArrayList<>();
