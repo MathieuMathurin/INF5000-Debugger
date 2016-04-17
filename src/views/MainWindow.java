@@ -34,6 +34,7 @@ public class MainWindow {
 
     public InterpretorRunnable interpretorRunnable;
     public ViewModel model;
+    public UIupdater uIupdater;
     //GUI Scene
     private Scene scene;
 
@@ -49,7 +50,7 @@ public class MainWindow {
     public FileChooser fileChooser;
     private TextArea outputConsole;
     //    private TextArea fileView;
-    private TableView<UIPairComponent> localVariablesView;
+    public TableView<UIPairComponent> localVariablesView;
     private TextField variable;
     WebView fileView;
 
@@ -65,6 +66,7 @@ public class MainWindow {
 
     public Scene init(final String[] args){
         model = new ViewModel(args);
+        uIupdater = new UIupdater(this);
         initButtons();
 
         //init breakpoints
@@ -123,11 +125,7 @@ public class MainWindow {
         scene = new Scene(mainPanel, 1000, 1500 );
         scene.getStylesheets().add(this.getClass()
                 .getResource("checkBox.css").toExternalForm());
-
-        for (Node toolBar = fileView.lookup(".tool-bar"); toolBar != null; toolBar = fileView.lookup(".tool-bar")) {
-            ((Pane) toolBar.getParent()).getChildren().remove(toolBar);
-        }
-
+        initButtonsHandlers();
         return scene;
     }
 
@@ -150,13 +148,11 @@ public class MainWindow {
         stepOutBtn = new Button("Step Out");
         stopBtn = new Button("Stop");
         addWatchBtn = new Button(" + ");
-
-        initButtonsHandlers();
     }
 
     private void initButtonsHandlers(){
         openBtn.setOnAction(new OpenHandler(this));
-        startBtn.setOnAction(new StartHandler(this, new UIupdater(fileView, localVariablesView)));
+        startBtn.setOnAction(new StartHandler(this));
         continueBtn.setOnAction(new ContinueHandler(this));
         stepOverBtn.setOnAction(new StepOverHandler(this));
         stepInBtn.setOnAction(new StepInHandler(this));
@@ -188,16 +184,7 @@ public class MainWindow {
         }
     }
 
-    public void setFileText(){
-        String text = "";
-        text = text.concat(this.model.preFileTextHtml);
-
-        for(String line : this.model.originalFileTextLines){
-            text = text.concat(line);
-        }
-
-        text = text.concat(this.model.postFileTextHtml);
-
+    public void setFileText(String text){
         this.fileView.getEngine().loadContent(text);
     }
 

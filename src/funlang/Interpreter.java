@@ -120,7 +120,7 @@ public class Interpreter
     @Override
     public void caseAAssignStm(
             AAssignStm node) {
-        debuggerUtils.runBreakPoint(this.currentFrame, node.getAssign().getLine());
+        debuggerUtils.runBreakPoint(this.currentFrame, node.getAssign().getLine(), node);
 
         node.getExp().apply(this);
         Value result = this.result;
@@ -158,7 +158,7 @@ public class Interpreter
     @Override
     public void caseAWhileStm(
             AWhileStm node) {
-        debuggerUtils.runBreakPoint(this.currentFrame, node.getWhile().getLine());
+        debuggerUtils.runBreakPoint(this.currentFrame, node.getWhile().getLine(), node);
 
         while (true) {
             // Evaluate the expression
@@ -176,7 +176,7 @@ public class Interpreter
     @Override
     public void caseAReturnStm(
             AReturnStm node) {
-        debuggerUtils.runBreakPoint(this.currentFrame, node.getReturn().getLine());
+        debuggerUtils.runBreakPoint(this.currentFrame, node.getReturn().getLine(), node);
 
         if (node.getExp() != null) {
             node.getExp().apply(this);
@@ -190,7 +190,7 @@ public class Interpreter
     @Override
     public void caseAEqualExp(
             AEqualExp node) {
-        debuggerUtils.runBreakPoint(this.currentFrame, node.getEqual().getLine());
+        debuggerUtils.runBreakPoint(this.currentFrame, node.getEqual().getLine(), node);
 
         node.getLeft().apply(this);
         Value left = this.result;
@@ -204,7 +204,7 @@ public class Interpreter
     @Override
     public void caseALtExp(
             ALtExp node) {
-        debuggerUtils.runBreakPoint(this.currentFrame, node.getLt().getLine());
+        debuggerUtils.runBreakPoint(this.currentFrame, node.getLt().getLine(), node);
 
 
         node.getLeft().apply(this);
@@ -219,7 +219,7 @@ public class Interpreter
     @Override
     public void caseAAddArith(
             AAddArith node) {
-        debuggerUtils.runBreakPoint(this.currentFrame, node.getPlus().getLine());
+        debuggerUtils.runBreakPoint(this.currentFrame, node.getPlus().getLine(), node);
 
         node.getArith().apply(this);
         int left = ((IntValue) this.result).getValue();
@@ -233,7 +233,7 @@ public class Interpreter
     @Override
     public void caseASubArith(
             ASubArith node) {
-        debuggerUtils.runBreakPoint(this.currentFrame, node.getMinus().getLine());
+        debuggerUtils.runBreakPoint(this.currentFrame, node.getMinus().getLine(), node);
 
         node.getArith().apply(this);
         int left = ((IntValue) this.result).getValue();
@@ -247,7 +247,7 @@ public class Interpreter
     @Override
     public void caseAMulFac(
             AMulFac node) {
-        debuggerUtils.runBreakPoint(this.currentFrame, node.getStar().getLine());
+        debuggerUtils.runBreakPoint(this.currentFrame, node.getStar().getLine(), node);
 
         node.getFac().apply(this);
         int left = ((IntValue) this.result).getValue();
@@ -261,7 +261,7 @@ public class Interpreter
     @Override
     public void caseAExpoPow(
             AExpoPow node) {
-        debuggerUtils.runBreakPoint(this.currentFrame, node.getCaret().getLine());
+        debuggerUtils.runBreakPoint(this.currentFrame, node.getCaret().getLine(), node);
 
         node.getTerm().apply(this);
         int base = ((IntValue) this.result).getValue();
@@ -321,7 +321,7 @@ public class Interpreter
     @Override
     public void caseACall(
             ACall node) {
-        debuggerUtils.runBreakPoint(this.currentFrame, node.getId().getLine());
+        debuggerUtils.runBreakPoint(this.currentFrame, node.getId().getLine(), node);
 
         // get function
         String name = node.getId().getText();

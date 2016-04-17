@@ -13,18 +13,16 @@ import views.UIupdater;
 public class StartHandler implements EventHandler<ActionEvent> {
     MainWindow window;
     Start cmdStart;
-    UIupdater updater;
 
-    public StartHandler(MainWindow mw, UIupdater updater){
+    public StartHandler(MainWindow mw){
         this.window = mw;
         this.cmdStart = new Start();
-        this.updater = updater;
     }
 
     @Override
     public void handle(ActionEvent event) {
         if (window.interpretorRunnable == null || window.interpretorRunnable.observer.runnableHasEnded()) {
-            window.interpretorRunnable = cmdStart.execute(window.model.args, window.model.breakpoints, this.updater);
+            window.interpretorRunnable = cmdStart.execute(window.model.args, window.model.breakpoints, this.window.uIupdater);
         }
     }
 }

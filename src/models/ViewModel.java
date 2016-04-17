@@ -18,6 +18,8 @@ public class ViewModel {
     public String postFileTextHtml;
     public String preLineHtml;
     public String postLineHtml;
+    public String preHighlightHtml;
+    public String postHighlightHtml;
 
     public ViewModel(String[] args){
         this.consoleOutputText = "";
@@ -29,6 +31,8 @@ public class ViewModel {
         this.postFileTextHtml = "</body></html>";
         this.preLineHtml = "<div>";
         this.postLineHtml = "</div>";
+        this.preHighlightHtml = "<span>";
+        this.postHighlightHtml = "</span>";
     }
 
 }

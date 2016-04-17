@@ -26,5 +26,6 @@ public class BreakPoint {
                 }
             }
         });
+        this.box.setText(new Integer(line).toString());
     }
 }

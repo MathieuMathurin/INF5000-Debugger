@@ -28,13 +28,13 @@ public class OpenHandler implements EventHandler<ActionEvent>{
     public void handle(ActionEvent actionEvent) {
         file = window.fileChooser.showOpenDialog(new Stage());
         Boolean hasError = false;
-        int lines = 0;
+        int lines = 1;
         try {
             if(file != null){
                 List<String> temp = Files.readAllLines(file.toPath(), Charset.defaultCharset());
                 for(String line : temp){
                     ++lines;
-                    this.window.model.originalFileTextLines.add(this.window.model.preLineHtml + line + this.window.model.postLineHtml);
+                    this.window.model.originalFileTextLines.add(line);
                 }
             }
         } catch (IOException e) {
@@ -43,7 +43,7 @@ public class OpenHandler implements EventHandler<ActionEvent>{
         }
         if(!hasError){
             //Enable buttons
-            window.setFileText();
+            this.window.uIupdater.setFileText();
             window.initBreakPoints(lines);
         }
     }
