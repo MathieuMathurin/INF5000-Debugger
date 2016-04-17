@@ -24,12 +24,17 @@ public class Interpreter
 
     private Frame currentFrame;
 
+    private Boolean isInDebugMode = false;
+
     public Interpreter(
             Semantics semantics,
             Observer observer) {
 
         this.semantics = semantics;
-        if (observer != null) this.debuggerUtils = new DebuggerUtils(observer);
+        if (observer != null){
+            this.debuggerUtils = new DebuggerUtils(observer);
+            this.isInDebugMode = true;
+        }
     }
 
     public static void interpret(
@@ -74,31 +79,57 @@ public class Interpreter
         String name = functionInfo.getName();
 
         if (name.equals("println")) {
-            System.out.println();
+            if(isInDebugMode){
+
+            }else{
+                System.out.println();
+            }
         }
         else if (name.equals("printint")) {
-            System.out.print(
-                    ((IntValue) this.currentFrame.getVariable("n")).getValue());
+            if(isInDebugMode){
+
+            }else{
+                System.out.print(
+                        ((IntValue) this.currentFrame.getVariable("n")).getValue());
+            }
         }
         else if (name.equals("printbool")) {
-            System.out.print(((BoolValue) this.currentFrame.getVariable("b"))
-                    .getValue());
+            if(isInDebugMode){
+
+            }else{
+                System.out.print(((BoolValue) this.currentFrame.getVariable("b"))
+                        .getValue());
+            }
         }
         else if (name.equals("printstring")) {
-            System.out.print(((StringValue) this.currentFrame.getVariable("s"))
-                    .getValue());
+            if(isInDebugMode){
+
+            }else{
+                System.out.print(((StringValue) this.currentFrame.getVariable("s"))
+                        .getValue());
+            }
         }
         else if (name.equals("readint")) {
-            System.out.println("Entrez un nombre");
+            int num = 0;
+            if(isInDebugMode){
+                //Gestion du STDIN: utilise la variable num pour la valeur
+            }else{
+                System.out.println("Entrez un nombre");
 
-            Scanner in = new Scanner(System.in);
-            int num = in.nextInt();
+                Scanner in = new Scanner(System.in);
+                num = in.nextInt();
+            }
 
             this.currentFrame.setReturnValue(new IntValue(num));
         }
         else if (name.equals("readstring")) {
-            Scanner in = new Scanner(System.in);
-            String s = in.next();
+            String s = "";
+            if(isInDebugMode){
+                //Gestion du STDIN: utilise la variable s pour la valeur
+            }else{
+                Scanner in = new Scanner(System.in);
+                s = in.next();
+            }
 
             this.currentFrame.setReturnValue(new StringValue(s));
         }
@@ -120,7 +151,9 @@ public class Interpreter
     @Override
     public void caseAAssignStm(
             AAssignStm node) {
-        debuggerUtils.runBreakPoint(this.currentFrame, node.getAssign().getLine(), node);
+        if(isInDebugMode){
+            debuggerUtils.runBreakPoint(this.currentFrame, node.getAssign().getLine(), node);
+        }
 
         node.getExp().apply(this);
         Value result = this.result;
@@ -158,7 +191,9 @@ public class Interpreter
     @Override
     public void caseAWhileStm(
             AWhileStm node) {
-        debuggerUtils.runBreakPoint(this.currentFrame, node.getWhile().getLine(), node);
+        if(isInDebugMode){
+            debuggerUtils.runBreakPoint(this.currentFrame, node.getWhile().getLine(), node);
+        }
 
         while (true) {
             // Evaluate the expression
@@ -176,7 +211,9 @@ public class Interpreter
     @Override
     public void caseAReturnStm(
             AReturnStm node) {
-        debuggerUtils.runBreakPoint(this.currentFrame, node.getReturn().getLine(), node);
+        if(isInDebugMode){
+            debuggerUtils.runBreakPoint(this.currentFrame, node.getReturn().getLine(), node);
+        }
 
         if (node.getExp() != null) {
             node.getExp().apply(this);
@@ -190,7 +227,9 @@ public class Interpreter
     @Override
     public void caseAEqualExp(
             AEqualExp node) {
-        debuggerUtils.runBreakPoint(this.currentFrame, node.getEqual().getLine(), node);
+        if(isInDebugMode){
+            debuggerUtils.runBreakPoint(this.currentFrame, node.getEqual().getLine(), node);
+        }
 
         node.getLeft().apply(this);
         Value left = this.result;
@@ -204,7 +243,9 @@ public class Interpreter
     @Override
     public void caseALtExp(
             ALtExp node) {
-        debuggerUtils.runBreakPoint(this.currentFrame, node.getLt().getLine(), node);
+        if(isInDebugMode){
+            debuggerUtils.runBreakPoint(this.currentFrame, node.getLt().getLine(), node);
+        }
 
 
         node.getLeft().apply(this);
@@ -219,7 +260,9 @@ public class Interpreter
     @Override
     public void caseAAddArith(
             AAddArith node) {
-        debuggerUtils.runBreakPoint(this.currentFrame, node.getPlus().getLine(), node);
+        if(isInDebugMode){
+            debuggerUtils.runBreakPoint(this.currentFrame, node.getPlus().getLine(), node);
+        }
 
         node.getArith().apply(this);
         int left = ((IntValue) this.result).getValue();
@@ -233,7 +276,9 @@ public class Interpreter
     @Override
     public void caseASubArith(
             ASubArith node) {
-        debuggerUtils.runBreakPoint(this.currentFrame, node.getMinus().getLine(), node);
+        if(isInDebugMode){
+            debuggerUtils.runBreakPoint(this.currentFrame, node.getMinus().getLine(), node);
+        }
 
         node.getArith().apply(this);
         int left = ((IntValue) this.result).getValue();
@@ -247,7 +292,9 @@ public class Interpreter
     @Override
     public void caseAMulFac(
             AMulFac node) {
-        debuggerUtils.runBreakPoint(this.currentFrame, node.getStar().getLine(), node);
+        if(isInDebugMode){
+            debuggerUtils.runBreakPoint(this.currentFrame, node.getStar().getLine(), node);
+        }
 
         node.getFac().apply(this);
         int left = ((IntValue) this.result).getValue();
@@ -261,7 +308,9 @@ public class Interpreter
     @Override
     public void caseAExpoPow(
             AExpoPow node) {
-        debuggerUtils.runBreakPoint(this.currentFrame, node.getCaret().getLine(), node);
+        if(isInDebugMode){
+            debuggerUtils.runBreakPoint(this.currentFrame, node.getCaret().getLine(), node);
+        }
 
         node.getTerm().apply(this);
         int base = ((IntValue) this.result).getValue();
@@ -321,7 +370,9 @@ public class Interpreter
     @Override
     public void caseACall(
             ACall node) {
-        debuggerUtils.runBreakPoint(this.currentFrame, node.getId().getLine(), node);
+        if(isInDebugMode){
+            debuggerUtils.runBreakPoint(this.currentFrame, node.getId().getLine(), node);
+        }
 
         // get function
         String name = node.getId().getText();

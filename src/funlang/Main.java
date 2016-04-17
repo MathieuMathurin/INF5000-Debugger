@@ -11,9 +11,11 @@ import lib.Observer;
 
 public class Main {
     static Observer observer;
+    static Boolean isInDebugMode = false;
 
     public static void startDebugMode(String[] args, Observer o){
         observer = o;
+        isInDebugMode = true;
         main(args);
     }
 
@@ -42,20 +44,35 @@ public class Main {
             System.exit(1);
         }
         catch (ParserException e) {
-            System.err.println(e.getMessage());
+            if(isInDebugMode){
+                //Gestion de l'affichage vers notre console
+            }else{
+                System.err.println(e.getMessage());
+            }
             System.exit(1);
         }
         catch (SemanticException e) {
-            System.err.println(e.getMessage());
+            if(isInDebugMode){
+
+            }else{
+                System.err.println(e.getMessage());
+            }
             System.exit(1);
         }
         catch (InterpreterException e) {
-            System.err.println(e.getMessage());
+            if(isInDebugMode){
 
+            }else{
+                System.err.println(e.getMessage());
+            }
             System.exit(1);
         }
         catch (IOException e) {
-            System.err.println(e);
+            if(isInDebugMode){
+
+            }else{
+                System.err.println(e);
+            }
             System.exit(1);
         }
     }

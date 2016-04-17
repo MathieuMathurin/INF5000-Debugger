@@ -3,6 +3,7 @@ package views;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.CheckBox;
+import views.MainWindow;
 
 /**
  * Created by Mathieu on 4/14/2016.
