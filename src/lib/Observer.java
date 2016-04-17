@@ -27,6 +27,11 @@ public class Observer {
         notify();
     }
 
+    public synchronized void updateDebuggerConsole(String text){
+        textAreaNotifier.updateConsoleText(text);
+        notify();
+    }
+
     public synchronized void waitNextCommand() {
         try {
             wait();

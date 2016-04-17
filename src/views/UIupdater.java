@@ -11,6 +11,7 @@ import java.util.Map;
 
 import funlang.Frame;
 import funlang.Value;
+import javafx.scene.layout.VBox;
 import javafx.scene.web.HTMLEditor;
 import javafx.scene.web.WebView;
 
@@ -43,9 +44,12 @@ public class UIupdater {
         Iterator it = variables.entrySet().iterator();
         while(it.hasNext()) {
             Map.Entry pair = (Map.Entry)it.next();
-            it.remove(); // avoids a ConcurrentModificationException
-
-            observableVariables.add(new UIPairComponent(pair.getKey().toString(), pair.getValue().toString()));
+            String key = pair.getKey().toString();
+            String value = "null";
+            if(pair != null && pair.getValue() != null){
+                value = pair.getValue().toString();
+            }
+            observableVariables.add(new UIPairComponent(key, value));
         }
 
         this.window.localVariablesView.setItems(observableVariables);
@@ -89,5 +93,10 @@ public class UIupdater {
                 window.setFileText(finalText);
             }
         });
+    }
+
+    public void updateConsoleText(String text){
+        this.window.model.consoleOutputText = this.window.model.consoleOutputText.concat("\n" + text);
+        this.window.outputConsole.setText(this.window.model.consoleOutputText);
     }
 }

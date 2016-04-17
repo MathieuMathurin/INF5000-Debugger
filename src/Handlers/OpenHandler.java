@@ -53,7 +53,7 @@ public class OpenHandler implements EventHandler<ActionEvent>{
     private void initBreakPoints(int lines){
         for(int i = 0; i < lines; ++i){
             //Creation de checkbox et ajout du controle
-            window.breakpointsPane.getChildren().add(new BreakPoint(window, i).box);
+            window.breakpointsPane.getChildren().add(new BreakPoint(window, i + 1).box);
         }
     }
 }

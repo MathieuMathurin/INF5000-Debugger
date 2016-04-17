@@ -88,7 +88,6 @@ public class MainWindow {
 
         outputConsole = new TextArea();
         outputConsole.setEditable(false);
-        outputConsole.setText(model.consoleOutputText);
         variable = new TextField();
 
         //init local variable

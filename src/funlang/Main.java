@@ -42,40 +42,49 @@ public class Main {
             observer.sendProgramHasEnded();
         }
         catch (LexerException e) {
-            System.err.println(e.getMessage());
-            System.exit(1);
+            String errorMessage = e.getMessage();
+            if(isInDebugMode){
+                observer.updateDebuggerConsole(errorMessage);
+            }else{
+                System.err.println(errorMessage);
+                System.exit(1);
+            }
         }
         catch (ParserException e) {
+            String errorMessage = e.getMessage();
             if(isInDebugMode){
-                //Gestion de l'affichage vers notre console
+                observer.updateDebuggerConsole(errorMessage);
             }else{
-                System.err.println(e.getMessage());
+                System.err.println(errorMessage);
+                System.exit(1);
             }
-            System.exit(1);
         }
         catch (SemanticException e) {
+            String errorMessage = e.getMessage();
             if(isInDebugMode){
-
+                observer.updateDebuggerConsole(errorMessage);
             }else{
-                System.err.println(e.getMessage());
+                System.err.println(errorMessage);
+                System.exit(1);
             }
-            System.exit(1);
         }
         catch (InterpreterException e) {
+            String errorMessage = e.getMessage();
             if(isInDebugMode){
-
+                observer.updateDebuggerConsole(errorMessage);
             }else{
-                System.err.println(e.getMessage());
+                System.err.println(errorMessage);
+                System.exit(1);
             }
-            System.exit(1);
         }
         catch (IOException e) {
+            String errorMessage = e.toString();
             if(isInDebugMode){
-
+                observer.updateDebuggerConsole(errorMessage);
             }else{
-                System.err.println(e);
+                System.err.println(errorMessage);
+                System.exit(1);
             }
-            System.exit(1);
         }
     }
 }

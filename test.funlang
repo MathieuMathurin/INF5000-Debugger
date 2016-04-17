@@ -18,10 +18,9 @@ fun retourne(): int
 
 {
   printstring("Hello world!");
-
   var y = 5;
-
   y = 10;
+  printint(min(y, 4));
 
   y = 15;
 
