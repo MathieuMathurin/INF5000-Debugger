@@ -17,7 +17,13 @@ public class AddWatchHandler implements EventHandler<ActionEvent> {
 
     @Override
     public void handle(ActionEvent event) {
-        window.updateConsoleOutputText(window.getNewWatchTextAndReset());
+        window.updateConsoleOutputText(getNewWatchTextAndReset());
         //Add new watch to watch list
+    }
+
+    private String getNewWatchTextAndReset(){
+        String text = window.variable.getText();
+        window.variable.setText("");
+        return text;
     }
 }

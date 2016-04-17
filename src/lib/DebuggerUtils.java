@@ -12,11 +12,6 @@ public class DebuggerUtils {
     public Frame lastFrame; // Le frame du dernier breakpoint, pas necessairement le parent
     public Frame parentFrame; // Le frame du parent du lastFrame
 
-    // Use case flags
-    boolean next; // When NEXT or Starting the program without any breakpoints
-
-    //
-
     public DebuggerUtils(Observer observer){
         this.observer = observer;
     }

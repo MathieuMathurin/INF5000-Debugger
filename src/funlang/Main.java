@@ -38,6 +38,8 @@ public class Main {
             Semantics semantics = SemanticVerifier.verify(tree);
 
             Interpreter.interpret(tree, semantics, observer);
+
+            observer.sendProgramHasEnded();
         }
         catch (LexerException e) {
             System.err.println(e.getMessage());

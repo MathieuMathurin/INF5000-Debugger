@@ -1,15 +1,21 @@
 package views;
 
 import Handlers.*;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.BooleanBinding;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.web.HTMLEditor;
 import javafx.scene.web.WebView;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import lib.InterpretorRunnable;
 import models.ViewModel;
 
@@ -31,30 +37,30 @@ public class MainWindow {
     private Scene scene;
 
     //Layouts
-    private BorderPane mainPanel;
-    private HBox centerPane;
-    private VBox rightPane;
-    private HBox commandButtonsPanel;
-    private VBox breakpointsPane;
-    private HBox newLinePane;
+    public BorderPane mainPanel;
+    public HBox centerPane;
+    public VBox rightPane;
+    public HBox commandButtonsPanel;
+    public VBox breakpointsPane;
+    public HBox newLinePane;
 
     //Controls
     public FileChooser fileChooser;
-    private TextArea outputConsole;
+    public TextArea outputConsole;
     //    private TextArea fileView;
     public TableView<UIPairComponent> localVariablesView;
-    private TextField variable;
-    WebView fileView;
+    public TextField variable;
+    public WebView fileView;
 
     //Buttons
-    private Button openBtn;
-    private Button startBtn;
-    private Button continueBtn;
-    private Button stepOverBtn;
-    private Button stepInBtn;
-    private Button stepOutBtn;
-    private Button stopBtn;
-    private Button addWatchBtn;
+    public Button openBtn;
+    public Button startBtn;
+    public Button continueBtn;
+    public Button stepOverBtn;
+    public Button stepInBtn;
+    public Button stepOutBtn;
+    public Button stopBtn;
+    public Button addWatchBtn;
 
     public Scene init(final String[] args){
         model = new ViewModel(args);
@@ -121,12 +127,6 @@ public class MainWindow {
         return scene;
     }
 
-    public String getNewWatchTextAndReset(){
-        String text = variable.getText();
-        variable.setText("");
-        return text;
-    }
-
     public void updateConsoleOutputText(String text){
         outputConsole.appendText("\n" + text);
     }
@@ -134,12 +134,19 @@ public class MainWindow {
     private void initButtons(){
         openBtn = new Button("Open");
         startBtn = new Button("Start");
+        startBtn.setDisable(true);
         continueBtn = new Button("Continue");
+        continueBtn.setDisable(true);
         stepOverBtn = new Button("Step Over");
+        stepOverBtn.setDisable(true);
         stepInBtn = new Button("Step In");
+        stepInBtn.setDisable(true);
         stepOutBtn = new Button("Step Out");
+        stepOutBtn.setDisable(true);
         stopBtn = new Button("Stop");
+        stopBtn.setDisable(true);
         addWatchBtn = new Button(" + ");
+        addWatchBtn.setDisable(true);
     }
 
     private void initButtonsHandlers(){
@@ -154,29 +161,21 @@ public class MainWindow {
     }
 
     private void initLocalVariablesTable(){
-        //LOCAL VARIABLES
         localVariablesView = new TableView<UIPairComponent>();
         localVariablesView.setEditable(true);
         TableColumn localVariablesColumnName= new TableColumn("Name");
         localVariablesColumnName.prefWidthProperty().bind(localVariablesView.widthProperty().divide(2));
-        localVariablesColumnName.setCellValueFactory(new PropertyValueFactory<UIPairComponent,String>("variable"));
+        localVariablesColumnName.setCellValueFactory(new PropertyValueFactory<UIPairComponent, String>("variable"));
         localVariablesColumnName.setEditable(true);
 
         TableColumn localVariablesColumnValue = new TableColumn("Value");
-        localVariablesColumnValue.setCellValueFactory(new PropertyValueFactory<UIPairComponent,String>("value"));
+        localVariablesColumnValue.setCellValueFactory(new PropertyValueFactory<UIPairComponent, String>("value"));
         localVariablesColumnValue.prefWidthProperty().bind(localVariablesView.widthProperty().divide(2));
         localVariablesColumnValue.setEditable(false);
         localVariablesView.getColumns().addAll(localVariablesColumnName, localVariablesColumnValue);
     }
 
-    public void initBreakPoints(int lines){
-        for(int i = 0; i < lines; ++i){
-            //Creation de checkbox et ajout du controle
-            breakpointsPane.getChildren().add(new BreakPoint(this, i + 1).box);
-        }
-    }
-
-    public void setFileText(String text){
+      public void setFileText(String text){
         this.fileView.getEngine().loadContent(text);
     }
 
