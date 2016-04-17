@@ -18,12 +18,7 @@ import javafx.scene.web.WebView;
  * Created by ledrou_83 on 16-04-12.
  */
 public class UIupdater {
-    //    TextArea fileView;
-    WebView fileView;
-    TableView<UIPairComponent> localVariables;
-
     MainWindow window;
-
 
     public UIupdater(MainWindow window) {
         this.window = window;
@@ -31,6 +26,15 @@ public class UIupdater {
 
     public void pushNotification(Frame f){
         updateLocalVariablesWindow(f.getVariables());
+    }
+
+    public void pushProgramHasEnded() {
+        window.continueBtn.setDisable(true);
+        window.stepOverBtn.setDisable(true);
+        window.stepInBtn.setDisable(true);
+        window.addWatchBtn.setDisable(true);
+        window.stepOutBtn.setDisable(true);
+        window.stopBtn.setDisable(true);
     }
 
     private void updateLocalVariablesWindow(Map<String, Value> variables) {

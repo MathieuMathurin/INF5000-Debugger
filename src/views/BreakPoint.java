@@ -8,7 +8,7 @@ import javafx.scene.control.CheckBox;
  * Created by Mathieu on 4/14/2016.
  */
 public class BreakPoint {
-    CheckBox box;
+    public CheckBox box;
     int line;
     MainWindow window;
 

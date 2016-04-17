@@ -2,8 +2,8 @@ package Handlers;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import views.BreakPoint;
 import views.MainWindow;
 
 import java.io.File;
@@ -18,7 +18,7 @@ import java.util.List;
 public class OpenHandler implements EventHandler<ActionEvent>{
 
     MainWindow window;
-    File file;
+    public File file;
 
     public OpenHandler(MainWindow mw){
         this.window = mw;
@@ -44,8 +44,16 @@ public class OpenHandler implements EventHandler<ActionEvent>{
         if(!hasError){
             //Enable buttons
             this.window.uIupdater.setFileText();
-            window.initBreakPoints(lines);
             this.window.model.args[0] = file.toString();
+            initBreakPoints(lines);
+            window.startBtn.setDisable(false);
+        }
+    }
+
+    private void initBreakPoints(int lines){
+        for(int i = 0; i < lines; ++i){
+            //Creation de checkbox et ajout du controle
+            window.breakpointsPane.getChildren().add(new BreakPoint(window, i).box);
         }
     }
 }

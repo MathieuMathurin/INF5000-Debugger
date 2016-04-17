@@ -35,11 +35,13 @@ public class Observer {
         }
     }
 
-    public synchronized void updateState(RunnableState rs) {
-        this.runnableState = rs;
+    public synchronized void sendProgramHasEnded() {
+        runnableState = RunnableState.ENDED;
+
+        textAreaNotifier.pushProgramHasEnded();
     }
 
-    public synchronized boolean runnableHasEnded() {
+    public boolean runnableHasEnded(){
         return runnableState == RunnableState.ENDED;
     }
 
