@@ -23,6 +23,7 @@ public class Observer {
 
     public synchronized void updateUI(Frame f, int lineIndex, String subString){
         textAreaNotifier.pushNotification(f);
+
         textAreaNotifier.updateFileText(lineIndex, subString);
         notify();
     }

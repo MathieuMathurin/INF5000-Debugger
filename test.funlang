@@ -13,7 +13,7 @@ fun min(a: int, b: int): int
 }
 fun retourne(): int
 {
-  return 4^(4-5);
+  return 4^2;
 }
 
 {

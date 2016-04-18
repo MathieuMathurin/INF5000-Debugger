@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import views.MainWindow;
+import views.Watch;
 
 /**
  * Created by Mathieu on 4/13/2016.
@@ -17,8 +18,10 @@ public class AddWatchHandler implements EventHandler<ActionEvent> {
 
     @Override
     public void handle(ActionEvent event) {
-        window.updateConsoleOutputText(getNewWatchTextAndReset());
-        //Add new watch to watch list
+        Watch newWatch = new Watch(getNewWatchTextAndReset());
+        this.window.model.watches.add(newWatch.getVariable());
+        newWatch.setValue("null");
+        this.window.watchView.getItems().add(newWatch);
     }
 
     private String getNewWatchTextAndReset(){

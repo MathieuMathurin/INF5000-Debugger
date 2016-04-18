@@ -27,6 +27,7 @@ public class UIupdater {
 
     public void pushNotification(Frame f){
         updateLocalVariablesWindow(f.getVariables());
+        updateWatches(f.getVariables());
     }
 
     public void pushProgramHasEnded() {
@@ -53,6 +54,22 @@ public class UIupdater {
         }
 
         this.window.localVariablesView.setItems(observableVariables);
+    }
+
+    private void updateWatches(Map<String, Value> variables){
+        ObservableList<Watch> newWatches =  FXCollections.observableArrayList();
+        for(String key : this.window.model.watches){
+            Value tempValue = variables.get(key);
+            Watch tempWatch = new Watch(key);
+            if(tempValue != null){
+                tempWatch.setValue(tempValue.toString());
+                newWatches.add(tempWatch);
+            }else{
+                tempWatch.setValue("null");
+                newWatches.add(tempWatch);
+            }
+        }
+        this.window.watchView.setItems(newWatches);
     }
 
     public void setFileText(){

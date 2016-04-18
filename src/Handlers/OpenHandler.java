@@ -26,6 +26,7 @@ public class OpenHandler implements EventHandler<ActionEvent>{
 
     @Override
     public void handle(ActionEvent actionEvent) {
+        this.window.model.originalFileTextLines.clear();
         Boolean hasError = true;
         file = window.fileChooser.showOpenDialog(new Stage());
         int lines = 0;
