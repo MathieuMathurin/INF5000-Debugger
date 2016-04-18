@@ -3,6 +3,7 @@ package funlang;
 
 import java.io.*;
 
+import funlang.syntax.analysis.ReversedDepthFirstAdapter;
 import funlang.syntax.lexer.*;
 import funlang.syntax.node.*;
 import funlang.syntax.parser.*;
@@ -36,6 +37,10 @@ public class Main {
 
             // Verify semantics
             Semantics semantics = SemanticVerifier.verify(tree);
+
+            if(isInDebugMode){
+
+            }
 
             Interpreter.interpret(tree, semantics, observer);
 

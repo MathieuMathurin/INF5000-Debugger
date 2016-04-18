@@ -2,9 +2,8 @@ package Handlers;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Scene;
 import views.MainWindow;
-import views.Watch;
+import models.Watch;
 
 /**
  * Created by Mathieu on 4/13/2016.

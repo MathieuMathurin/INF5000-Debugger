@@ -2,8 +2,6 @@ package views;
 
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
 import javafx.collections.FXCollections;
 
 import java.util.Iterator;
@@ -11,9 +9,8 @@ import java.util.Map;
 
 import funlang.Frame;
 import funlang.Value;
-import javafx.scene.layout.VBox;
-import javafx.scene.web.HTMLEditor;
-import javafx.scene.web.WebView;
+import models.UIPairComponent;
+import models.Watch;
 
 /**
  * Created by ledrou_83 on 16-04-12.

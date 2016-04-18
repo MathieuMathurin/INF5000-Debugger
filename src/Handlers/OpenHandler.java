@@ -3,7 +3,7 @@ package Handlers;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.stage.Stage;
-import views.BreakPoint;
+import models.BreakPoint;
 import views.MainWindow;
 
 import java.io.File;
