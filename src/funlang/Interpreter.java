@@ -26,12 +26,15 @@ public class Interpreter
 
     private Boolean isInDebugMode = false;
 
+    private Observer observer;
+
     public Interpreter(
             Semantics semantics,
             Observer observer) {
 
         this.semantics = semantics;
         if (observer != null){
+            this.observer = observer;
             this.debuggerUtils = new DebuggerUtils(observer);
             this.isInDebugMode = true;
         }
@@ -80,33 +83,33 @@ public class Interpreter
 
         if (name.equals("println")) {
             if(isInDebugMode){
-
+                this.observer.updateDebuggerConsole("");
             }else{
                 System.out.println();
             }
         }
         else if (name.equals("printint")) {
+            Integer value = ((IntValue) this.currentFrame.getVariable("n")).getValue();
             if(isInDebugMode){
-
+                this.observer.updateDebuggerConsole(value.toString());
             }else{
-                System.out.print(
-                        ((IntValue) this.currentFrame.getVariable("n")).getValue());
+                System.out.print(value);
             }
         }
         else if (name.equals("printbool")) {
+            Boolean value = ((BoolValue) this.currentFrame.getVariable("b")).getValue();
             if(isInDebugMode){
-
+                this.observer.updateDebuggerConsole(value.toString());
             }else{
-                System.out.print(((BoolValue) this.currentFrame.getVariable("b"))
-                        .getValue());
+                System.out.print(value);
             }
         }
         else if (name.equals("printstring")) {
+            String value = ((StringValue) this.currentFrame.getVariable("s")).getValue();
             if(isInDebugMode){
-
+                this.observer.updateDebuggerConsole(value);
             }else{
-                System.out.print(((StringValue) this.currentFrame.getVariable("s"))
-                        .getValue());
+                System.out.print(value);
             }
         }
         else if (name.equals("readint")) {

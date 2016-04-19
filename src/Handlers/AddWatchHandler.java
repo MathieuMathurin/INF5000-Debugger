@@ -2,16 +2,8 @@ package Handlers;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Scene;
-import javafx.scene.layout.FlowPane;
 import views.MainWindow;
-
-import javafx.stage.Stage;
-import javafx.scene.Parent;
-import javafx.fxml.FXMLLoader;
-import javafx.stage.Modality;
-
-import java.io.IOException;
+import models.Watch;
 
 /**
  * Created by Mathieu on 4/13/2016.
@@ -25,6 +17,15 @@ public class AddWatchHandler implements EventHandler<ActionEvent> {
 
     @Override
     public void handle(ActionEvent event) {
+        Watch newWatch = new Watch(getNewWatchTextAndReset());
+        this.window.model.watches.add(newWatch.getVariable());
+        newWatch.setValue("null");
+        this.window.watchView.getItems().add(newWatch);
+    }
 
+    private String getNewWatchTextAndReset(){
+        String text = window.variable.getText();
+        window.variable.setText("");
+        return text;
     }
 }

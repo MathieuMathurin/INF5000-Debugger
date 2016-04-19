@@ -3,7 +3,7 @@ package Handlers;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.stage.Stage;
-import views.BreakPoint;
+import models.BreakPoint;
 import views.MainWindow;
 
 import java.io.File;
@@ -26,6 +26,7 @@ public class OpenHandler implements EventHandler<ActionEvent>{
 
     @Override
     public void handle(ActionEvent actionEvent) {
+        this.window.model.originalFileTextLines.clear();
         Boolean hasError = true;
         file = window.fileChooser.showOpenDialog(new Stage());
         int lines = 0;
@@ -34,6 +35,9 @@ public class OpenHandler implements EventHandler<ActionEvent>{
                 List<String> temp = Files.readAllLines(file.toPath(), Charset.defaultCharset());
                 for(String line : temp){
                     ++lines;
+                    if(line.trim().isEmpty()){
+                        line = "<br>";
+                    }
                     this.window.model.originalFileTextLines.add(line);
                 }
                 hasError = false;
@@ -53,7 +57,7 @@ public class OpenHandler implements EventHandler<ActionEvent>{
     private void initBreakPoints(int lines){
         for(int i = 0; i < lines; ++i){
             //Creation de checkbox et ajout du controle
-            window.breakpointsPane.getChildren().add(new BreakPoint(window, i).box);
+            window.breakpointsPane.getChildren().add(new BreakPoint(window, i + 1).box);
         }
     }
 }

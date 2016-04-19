@@ -3,6 +3,7 @@ package views;
 import Handlers.*;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.stage.Stage;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
@@ -10,9 +11,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebView;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 import lib.InterpretorRunnable;
+import models.UIPairComponent;
 import models.ViewModel;
+import models.Watch;
 
 import java.io.File;
 
@@ -46,6 +48,7 @@ public class MainWindow {
     public TextArea outputConsole;
     //    private TextArea fileView;
     public TableView<UIPairComponent> localVariablesView;
+    public TableView<Watch> watchView;
     public TextField variable;
     public WebView fileView;
 
@@ -87,11 +90,13 @@ public class MainWindow {
 
         outputConsole = new TextArea();
         outputConsole.setEditable(false);
-        outputConsole.setText(model.consoleOutputText);
         variable = new TextField();
 
         //init local variable
         initLocalVariablesTable();
+
+        //init watches
+        initWatches();
 
         //init layout
         mainPanel = new BorderPane();
@@ -109,7 +114,7 @@ public class MainWindow {
         //AddItems to Panes
         centerPane.getChildren().addAll(breakpointsPane, fileView);
         newLinePane.getChildren().addAll(variable, addWatchBtn);
-        rightPane.getChildren().addAll(localVariablesView, newLinePane);
+        rightPane.getChildren().addAll(localVariablesView, watchView, newLinePane);
 
 
 //        fileView.prefWidthProperty().bind(centerPane.widthProperty());
@@ -175,6 +180,21 @@ public class MainWindow {
         localVariablesColumnValue.prefWidthProperty().bind(localVariablesView.widthProperty().divide(2));
         localVariablesColumnValue.setEditable(false);
         localVariablesView.getColumns().addAll(localVariablesColumnName, localVariablesColumnValue);
+    }
+
+    private void initWatches(){
+        watchView = new TableView<Watch>();
+        watchView.setEditable(true);
+        TableColumn watchVariableColumnName= new TableColumn("Variable");
+        watchVariableColumnName.prefWidthProperty().bind(watchView.widthProperty().divide(2));
+        watchVariableColumnName.setCellValueFactory(new PropertyValueFactory<Watch, String>("variable"));
+        watchVariableColumnName.setEditable(true);
+
+        TableColumn watchViewColumnName = new TableColumn("Value");
+        watchViewColumnName.setCellValueFactory(new PropertyValueFactory<UIPairComponent, String>("value"));
+        watchViewColumnName.prefWidthProperty().bind(watchView.widthProperty().divide(2));
+        watchViewColumnName.setEditable(false);
+        watchView.getColumns().addAll(watchVariableColumnName, watchViewColumnName);
     }
 
       public void setFileText(String text){
