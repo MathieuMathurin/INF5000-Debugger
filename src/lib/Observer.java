@@ -14,6 +14,7 @@ public class Observer {
     RunnableState runnableState;
     CommandType command;
     HashMap<Integer, Integer> breakpoints;
+    String stdinValue;
     UIupdater textAreaNotifier;
 
     public Observer(UIupdater n){
@@ -27,7 +28,7 @@ public class Observer {
         notify();
     }
 
-    public synchronized void waitNextCommand() {
+    public synchronized void waitResponse() {
         try {
             wait();
         } catch (InterruptedException e) {
@@ -64,6 +65,16 @@ public class Observer {
 
     public synchronized void sendStepOut() {
         this.command = CommandType.STEP_OUT;
+        notify();
+    }
+
+    public synchronized void sendRequireStdInEntry(){
+        textAreaNotifier.updateRequireStdinEntry();
+        notify();
+    }
+
+    public synchronized void sendStdInEntry(String s){
+        stdinValue = s;
         notify();
     }
 }

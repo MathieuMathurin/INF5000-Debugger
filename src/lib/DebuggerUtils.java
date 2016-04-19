@@ -16,6 +16,13 @@ public class DebuggerUtils {
         this.observer = observer;
     }
 
+    public String getStdInEntry(){
+        observer.sendRequireStdInEntry();
+        observer.waitResponse();
+
+        return observer.stdinValue;
+    }
+
     public void runBreakPoint(Frame frame, int lineNumber, Node node){
         if (observer.breakpoints.containsKey(lineNumber)
             || observer.command.equals(CommandType.STEP_IN)
@@ -27,7 +34,7 @@ public class DebuggerUtils {
         {
             System.out.println("Command: " + observer.command + " Line number: " + lineNumber);
             observer.updateUI(frame, lineNumber, nodeText(node));
-            observer.waitNextCommand();
+            observer.waitResponse();
 
             if (lastFrame !=  null && frame != lastFrame)
                 parentFrame = lastFrame;
