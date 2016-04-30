@@ -115,7 +115,8 @@ public class Interpreter
         else if (name.equals("readint")) {
             int num = 0;
             if(isInDebugMode){
-                //Gestion du STDIN: utilise la variable num pour la valeur
+                num = Integer.parseInt(debuggerUtils.getStdInEntry());
+
             }else{
                 System.out.println("Entrez un nombre");
 
@@ -128,7 +129,7 @@ public class Interpreter
         else if (name.equals("readstring")) {
             String s = "";
             if(isInDebugMode){
-                //Gestion du STDIN: utilise la variable s pour la valeur
+                s = debuggerUtils.getStdInEntry();
             }else{
                 Scanner in = new Scanner(System.in);
                 s = in.next();

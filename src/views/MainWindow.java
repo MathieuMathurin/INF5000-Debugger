@@ -3,6 +3,7 @@ package views;
 import Handlers.*;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.stage.Stage;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
@@ -21,15 +22,17 @@ import java.io.File;
  * Created by Mathieu on 4/13/2016.
  */
 public class MainWindow {
-
     // test
     // TODO si on change des valeurs locales au runtime, on doit faire la verif de TYPES
 
+
+    public Stage primaryStage;
 
     public InterpretorRunnable interpretorRunnable;
     public ViewModel model;
     public UIupdater uIupdater;
     //GUI Scene
+    public Scene mainScene; // garder la scene meme si la scene courante est, par exemple, un modal
     private Scene scene;
 
     //Layouts
@@ -59,7 +62,9 @@ public class MainWindow {
     public Button stopBtn;
     public Button addWatchBtn;
 
-    public Scene init(final String[] args){
+    public Scene init(final String[] args, Stage primaryStage){
+        this.primaryStage = primaryStage;
+
         model = new ViewModel(args);
         uIupdater = new UIupdater(this);
         initButtons();
@@ -119,10 +124,13 @@ public class MainWindow {
         mainPanel.setRight(rightPane);
         mainPanel.setBottom(outputConsole);
 
-        scene = new Scene(mainPanel, 1000, 1500 );
+        scene = new Scene(mainPanel, 1000, 1500);
         scene.getStylesheets().add(this.getClass()
                 .getResource("checkBox.css").toExternalForm());
+
         initButtonsHandlers();
+
+        mainScene = scene;
         return scene;
     }
 
@@ -192,5 +200,4 @@ public class MainWindow {
       public void setFileText(String text){
         this.fileView.getEngine().loadContent(text);
     }
-
 }

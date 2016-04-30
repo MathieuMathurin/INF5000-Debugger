@@ -20,6 +20,10 @@ fun retourne(): int
   printstring("Hello world!");
   var y = 5;
   retourne();
+
+  var z = readint();
+  printint(z);
+
   y = 10;
   printint(min(y, 4));
 

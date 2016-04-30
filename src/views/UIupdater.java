@@ -1,16 +1,22 @@
 package views;
 
-import javafx.application.Platform;
-import javafx.collections.ObservableList;
-import javafx.collections.FXCollections;
-
-import java.util.Iterator;
-import java.util.Map;
-
-import funlang.Frame;
-import funlang.Value;
+import Handlers.*;
 import models.UIPairComponent;
 import models.Watch;
+
+import javafx.application.Platform;
+import javafx.collections.ObservableList;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.collections.FXCollections;
+import java.util.Iterator;
+import java.util.Map;
+import funlang.Frame;
+import funlang.Value;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.control.Label;
+import javafx.scene.layout.GridPane;
+import javafx.scene.control.TextField;
 
 /**
  * Created by ledrou_83 on 16-04-12.
@@ -103,8 +109,35 @@ public class UIupdater {
         final String finalText = text;
 
         Platform.runLater(new Runnable() {
-            @Override public void run() {
+            @Override
+            public void run() {
                 window.setFileText(finalText);
+            }
+        });
+    }
+
+    public void updateRequireStdinEntry() {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                FlowPane modalPane = new FlowPane();
+                Scene modalScene = new Scene(modalPane, 400, 400);
+
+                GridPane grid = new GridPane();
+                Label userName = new Label("Stdin: ");
+                grid.add(userName, 0, 1);
+                TextField stdinTextField = new TextField();
+                grid.add(stdinTextField, 1, 1);
+
+                Button submitBtn = new Button("Send");
+                StdinSubmitHandler stdinSubmitHandler = new StdinSubmitHandler(window, stdinTextField);
+
+                submitBtn.setOnAction(stdinSubmitHandler);
+
+                modalPane.getChildren().addAll(grid, submitBtn);
+
+                window.primaryStage.setScene(modalScene);
+                window.primaryStage.show();
             }
         });
     }
