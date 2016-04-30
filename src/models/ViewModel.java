@@ -26,7 +26,7 @@ public class ViewModel {
         this.args = new String[1];
         this.breakpoints = new HashMap<>();
         this.originalFileTextLines = new ArrayList<>();
-        this.preFileTextHtml = "<!DOCTYPE html><html><head><style>body{font-size:30px; text-align: left;}span{background-color: yellow;}div{white-space: nowrap}</style></head><body>";
+        this.preFileTextHtml = "<!DOCTYPE html><html><head><style>body{font-size:20px; text-align: left;}span{background-color: yellow;}div{white-space: nowrap}</style></head><body>";
         this.postFileTextHtml = "</body></html>";
         this.preLineHtml = "<div>";
         this.postLineHtml = "</div>";
